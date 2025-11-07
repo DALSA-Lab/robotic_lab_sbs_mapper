@@ -1,0 +1,164 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. Example: Using the Dummy Python Package &mdash; My Project  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="2. Example: Using the Dummy C++ Package" href="example_2.html" />
+    <link rel="prev" title="Examples" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            My Project
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../architecture/index.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code/index.html">Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1. Example: Using the Dummy Python Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#demomstration">Demomstration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#output-explanation">Output Explanation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="example_2.html">2. Example: Using the Dummy C++ Package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">My Project</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Examples</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1. </span>Example: Using the Dummy Python Package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/usage/examples/example_1.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="example-using-the-dummy-python-package">
+<h1><span class="section-number">1. </span>Example: Using the Dummy Python Package<a class="headerlink" href="#example-using-the-dummy-python-package" title="Link to this heading"></a></h1>
+<section id="demomstration">
+<h2>Demomstration<a class="headerlink" href="#demomstration" title="Link to this heading"></a></h2>
+<p>This example demonstrates how to use the dummy Python package located in <code class="docutils literal notranslate"><span class="pre">lib/py_pkg</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">py_pkg</span><span class="w"> </span><span class="kn">import</span> <span class="n">math_utils</span><span class="p">,</span> <span class="n">string_utils</span><span class="p">,</span> <span class="n">module</span>
+
+<span class="c1"># Math utilities</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PI:&quot;</span><span class="p">,</span> <span class="n">math_utils</span><span class="o">.</span><span class="n">PI</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Square of 4:&quot;</span><span class="p">,</span> <span class="n">math_utils</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="n">calc</span> <span class="o">=</span> <span class="n">math_utils</span><span class="o">.</span><span class="n">Calculator</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Add:&quot;</span><span class="p">,</span> <span class="n">calc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Divide:&quot;</span><span class="p">,</span> <span class="n">calc</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="c1"># String utilities</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">string_utils</span><span class="o">.</span><span class="n">DEFAULT_GREETING</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">string_utils</span><span class="o">.</span><span class="n">shout</span><span class="p">(</span><span class="s2">&quot;hello world&quot;</span><span class="p">))</span>
+
+<span class="n">fmt</span> <span class="o">=</span> <span class="n">string_utils</span><span class="o">.</span><span class="n">Formatter</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">surround</span><span class="p">(</span><span class="s2">&quot;example&quot;</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="output-explanation">
+<h2>Output Explanation<a class="headerlink" href="#output-explanation" title="Link to this heading"></a></h2>
+<p>When you run this code, you will see output similar to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PI</span><span class="p">:</span> <span class="mf">3.14159</span>
+<span class="n">Square</span> <span class="n">of</span> <span class="mi">4</span><span class="p">:</span> <span class="mi">16</span>
+<span class="n">Add</span><span class="p">:</span> <span class="mi">5</span>
+<span class="n">Divide</span><span class="p">:</span> <span class="mf">5.0</span>
+<span class="n">Hello</span>
+<span class="n">HELLO</span> <span class="n">WORLD</span>
+<span class="c1">#example#</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">PI:</span> <span class="pre">3.14159</span></code> prints the value of <code class="docutils literal notranslate"><span class="pre">math_utils.PI</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Square</span> <span class="pre">of</span> <span class="pre">4:</span> <span class="pre">16</span></code> is the result of <code class="docutils literal notranslate"><span class="pre">math_utils.square(4)</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Add:</span> <span class="pre">5</span></code> is the result of <code class="docutils literal notranslate"><span class="pre">calc.add(2,</span> <span class="pre">3)</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Divide:</span> <span class="pre">5.0</span></code> is the result of <code class="docutils literal notranslate"><span class="pre">calc.divide(10,</span> <span class="pre">2)</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Hello</span></code> is the value of <code class="docutils literal notranslate"><span class="pre">string_utils.DEFAULT_GREETING</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HELLO</span> <span class="pre">WORLD</span></code> is the result of <code class="docutils literal notranslate"><span class="pre">string_utils.shout(&quot;hello</span> <span class="pre">world&quot;)</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">#example#</span></code> is the result of <code class="docutils literal notranslate"><span class="pre">fmt.surround(&quot;example&quot;,</span> <span class="pre">&quot;#&quot;)</span></code>.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="example_2.html" class="btn btn-neutral float-right" title="2. Example: Using the Dummy C++ Package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Alan Mansour, DALSA.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
