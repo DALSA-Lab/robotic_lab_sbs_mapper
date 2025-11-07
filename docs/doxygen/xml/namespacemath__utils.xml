@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="namespacemath__utils" kind="namespace" language="C++">
+    <compoundname>math_utils</compoundname>
+    <innerclass refid="classmath__utils_1_1_calculator" prot="public">math_utils::Calculator</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="math__utils_8hpp_1ab77ed9bc6a5263c1912751341b1d96f9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double math_utils::PI</definition>
+        <argsstring></argsstring>
+        <name>PI</name>
+        <qualifiedname>math_utils::PI</qualifiedname>
+        <initializer>= 3.14159</initializer>
+        <briefdescription>
+<para>The mathematical constant pi. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/cpp_pkg/include/math_utils.hpp" line="11" column="18" bodyfile="lib/cpp_pkg/include/math_utils.hpp" bodystart="11" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="math__utils_8hpp_1a5a6ea77164a9ce3c89c66f186228bf08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double math_utils::square</definition>
+        <argsstring>(double x)</argsstring>
+        <name>square</name>
+        <qualifiedname>math_utils::square</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the square of a number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number to be squared. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The square of the input number. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/cpp_pkg/src/math_utils.cpp" line="6" column="8" bodyfile="lib/cpp_pkg/src/math_utils.cpp" bodystart="6" bodyend="6" declfile="lib/cpp_pkg/include/math_utils.hpp" declline="18" declcolumn="8"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="lib/cpp_pkg/include/math_utils.hpp" line="8" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="classstring__utils_1_1_formatter" kind="class" language="C++" prot="public">
+    <compoundname>string_utils::Formatter</compoundname>
+    <includes refid="string__utils_8hpp" local="no">string_utils.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classstring__utils_1_1_formatter_1a72c83ffa1f6f2564f47f70137d215d56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string string_utils::Formatter::surround</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;symbol=&quot;*&quot;)</argsstring>
+        <name>surround</name>
+        <qualifiedname>string_utils::Formatter::surround</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>symbol</declname>
+          <defval>&quot;*&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Surround text with a given symbol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input string to surround. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>symbol</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The symbol to use for surrounding (default is &quot;*&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The formatted string with symbols surrounding the text. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/cpp_pkg/include/string_utils.hpp" line="33" column="15" bodyfile="lib/cpp_pkg/src/string_utils.cpp" bodystart="12" bodyend="15"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A class for formatting strings. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="lib/cpp_pkg/include/string_utils.hpp" line="25" column="1" bodyfile="lib/cpp_pkg/include/string_utils.hpp" bodystart="25" bodyend="35"/>
+    <listofallmembers>
+      <member refid="classstring__utils_1_1_formatter_1a72c83ffa1f6f2564f47f70137d215d56" prot="public" virt="non-virtual"><scope>string_utils::Formatter</scope><name>surround</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

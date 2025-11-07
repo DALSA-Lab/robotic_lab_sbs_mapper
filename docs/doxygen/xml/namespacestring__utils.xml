@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="namespacestring__utils" kind="namespace" language="C++">
+    <compoundname>string_utils</compoundname>
+    <innerclass refid="classstring__utils_1_1_formatter" prot="public">string_utils::Formatter</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="string__utils_8hpp_1a5156a6427c72b2e7ab96d986f346d9db" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string string_utils::DEFAULT_GREETING</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_GREETING</name>
+        <qualifiedname>string_utils::DEFAULT_GREETING</qualifiedname>
+        <initializer>= &quot;Hello&quot;</initializer>
+        <briefdescription>
+<para>Default greeting string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/cpp_pkg/include/string_utils.hpp" line="13" column="19" bodyfile="lib/cpp_pkg/include/string_utils.hpp" bodystart="13" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="string__utils_8hpp_1a846b06166c7acbde7cf9e2a457f628e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string string_utils::shout</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>shout</name>
+        <qualifiedname>string_utils::shout</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Convert text to uppercase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input string to convert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The uppercase version of the input string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/cpp_pkg/src/string_utils.cpp" line="6" column="13" bodyfile="lib/cpp_pkg/src/string_utils.cpp" bodystart="6" bodyend="10" declfile="lib/cpp_pkg/include/string_utils.hpp" declline="20" declcolumn="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="lib/cpp_pkg/include/string_utils.hpp" line="10" column="1"/>
+  </compounddef>
+</doxygen>

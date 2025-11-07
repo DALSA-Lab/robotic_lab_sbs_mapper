@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="classmath__utils_1_1_calculator" kind="class" language="C++" prot="public">
+    <compoundname>math_utils::Calculator</compoundname>
+    <includes refid="math__utils_8hpp" local="no">math_utils.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classmath__utils_1_1_calculator_1a1ac410555bdef0e7d1d6856eb65a8623" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double math_utils::Calculator::add</definition>
+        <argsstring>(double a, double b)</argsstring>
+        <name>add</name>
+        <qualifiedname>math_utils::Calculator::add</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Add two numbers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First number. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second number. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The sum of a and b. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/cpp_pkg/include/math_utils.hpp" line="31" column="10" bodyfile="lib/cpp_pkg/src/math_utils.cpp" bodystart="8" bodyend="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classmath__utils_1_1_calculator_1a4761e091532dd7b2b3aa5b05d462e745" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double math_utils::Calculator::subtract</definition>
+        <argsstring>(double a, double b)</argsstring>
+        <name>subtract</name>
+        <qualifiedname>math_utils::Calculator::subtract</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Subtract one number from another. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First number. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second number to subtract from the first. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The result of a - b. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/cpp_pkg/include/math_utils.hpp" line="39" column="10" bodyfile="lib/cpp_pkg/src/math_utils.cpp" bodystart="10" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classmath__utils_1_1_calculator_1a9d94459903e96e34ed80b3267e55da27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double math_utils::Calculator::multiply</definition>
+        <argsstring>(double a, double b)</argsstring>
+        <name>multiply</name>
+        <qualifiedname>math_utils::Calculator::multiply</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Multiply two numbers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First number. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second number. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The product of a and b. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/cpp_pkg/include/math_utils.hpp" line="47" column="10" bodyfile="lib/cpp_pkg/src/math_utils.cpp" bodystart="12" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classmath__utils_1_1_calculator_1abc237c0b76a0bcb0361bfe201b728465" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double math_utils::Calculator::divide</definition>
+        <argsstring>(double a, double b)</argsstring>
+        <name>divide</name>
+        <qualifiedname>math_utils::Calculator::divide</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Divide one number by another. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Numerator. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Denominator. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The result of a / b. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if b is zero. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/cpp_pkg/include/math_utils.hpp" line="56" column="10" bodyfile="lib/cpp_pkg/src/math_utils.cpp" bodystart="14" bodyend="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A simple calculator class for basic arithmetic operations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="lib/cpp_pkg/include/math_utils.hpp" line="23" column="1" bodyfile="lib/cpp_pkg/include/math_utils.hpp" bodystart="23" bodyend="57"/>
+    <listofallmembers>
+      <member refid="classmath__utils_1_1_calculator_1a1ac410555bdef0e7d1d6856eb65a8623" prot="public" virt="non-virtual"><scope>math_utils::Calculator</scope><name>add</name></member>
+      <member refid="classmath__utils_1_1_calculator_1abc237c0b76a0bcb0361bfe201b728465" prot="public" virt="non-virtual"><scope>math_utils::Calculator</scope><name>divide</name></member>
+      <member refid="classmath__utils_1_1_calculator_1a9d94459903e96e34ed80b3267e55da27" prot="public" virt="non-virtual"><scope>math_utils::Calculator</scope><name>multiply</name></member>
+      <member refid="classmath__utils_1_1_calculator_1a4761e091532dd7b2b3aa5b05d462e745" prot="public" virt="non-virtual"><scope>math_utils::Calculator</scope><name>subtract</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

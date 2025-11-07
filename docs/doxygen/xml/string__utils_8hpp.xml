@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="string__utils_8hpp" kind="file" language="C++">
+    <compoundname>string_utils.hpp</compoundname>
+    <includes local="no">string</includes>
+    <includedby refid="string__utils_8cpp" local="yes">lib/cpp_pkg/src/string_utils.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>lib/cpp_pkg/include/string_utils.hpp</label>
+        <link refid="string__utils_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classstring__utils_1_1_formatter" prot="public">string_utils::Formatter</innerclass>
+    <innernamespace refid="namespacestring__utils">string_utils</innernamespace>
+    <briefdescription>
+<para>A dummy string utility module for demonstration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">string_utils<sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13" refid="string__utils_8hpp_1a5156a6427c72b2e7ab96d986f346d9db" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="string__utils_8hpp_1a5156a6427c72b2e7ab96d986f346d9db" kindref="member">DEFAULT_GREETING</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Hello&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal">std::string<sp/><ref refid="string__utils_8hpp_1a846b06166c7acbde7cf9e2a457f628e3" kindref="member">shout</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;text);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="classstring__utils_1_1_formatter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classstring__utils_1_1_formatter" kindref="compound">Formatter</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="classstring__utils_1_1_formatter_1a72c83ffa1f6f2564f47f70137d215d56" kindref="member">surround</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;text,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;symbol<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>string_utils</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="lib/cpp_pkg/include/string_utils.hpp"/>
+  </compounddef>
+</doxygen>

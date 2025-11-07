@@ -1,0 +1,40 @@
+name: Docs Site
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "docs/**"
+      - "requirements-docs.txt"
+      - "Doxyfile"
+      - "src/**"
+  workflow_dispatch:
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: src
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Sphinx and dependencies
+        run: pip install -r requirements-docs.txt
+      - name: Install Doxygen
+        run: sudo apt-get update && sudo apt-get install -y doxygen
+      - name: Generate Doxygen XML
+        run: doxygen Doxyfile
+      - name: Build Sphinx HTML
+        run: sphinx-build -b html docs build/html
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build/html
+          publish_branch: gh-pages

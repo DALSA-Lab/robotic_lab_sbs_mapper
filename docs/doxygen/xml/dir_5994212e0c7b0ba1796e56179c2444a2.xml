@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="dir_5994212e0c7b0ba1796e56179c2444a2" kind="dir">
+    <compoundname>lib/cpp_pkg/src</compoundname>
+    <innerfile refid="math__utils_8cpp">math_utils.cpp</innerfile>
+    <innerfile refid="string__utils_8cpp">string_utils.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="lib/cpp_pkg/src/"/>
+  </compounddef>
+</doxygen>

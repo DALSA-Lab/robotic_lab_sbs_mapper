@@ -1,0 +1,42 @@
+name: Format and Lint
+
+on: [pull_request]
+
+jobs:
+  python-format-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Ruff
+        run: pip install ruff
+      - name: Find Python Packages, and then Format and Lint
+        run: |
+          for pkg in $(find . -name pyproject.toml -exec dirname {} \;); do
+            echo "Processing Python package in $pkg"
+            ruff format "$pkg"
+            ruff check "$pkg"
+          done
+  cpp-format-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install clang-tidy and clang-format
+        run: sudo apt-get update && sudo apt-get install -y cmake clang
+      - name: Install Doxygen
+        run: sudo apt-get install -y doxygen
+      - name: Check if documentation is complete
+        run: doxygen Doxyfile
+      - name: Find C++ Packages, and then Format and Lint
+        run: |
+          for pkg in $(find . -name CMakeLists.txt -exec dirname {} \;); do
+            echo "Processing C++ package in $pkg"
+            clang-format -i $(find "$pkg" -name '*.cpp' -o -name '*.hpp')
+            cmake -S "$pkg" -B "$pkg/build" \
+              -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+              -DCMAKE_CXX_CLANG_TIDY="clang-tidy;-header-filter=.;-checks=*"
+            cmake --build "$pkg/build" -j"$(nproc)"
+          done
