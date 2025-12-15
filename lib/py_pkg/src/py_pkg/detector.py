@@ -42,49 +42,39 @@ class Detector:
         
         corners, ids, _ = self.detector.detectMarkers(image=img)
         
-        return corners, ids
+        corners_dict = {}
+        
+        if ids is not None and len(ids) > 0:
+            # correlate ids to corner 
+            for index, id in enumerate(ids.flatten()):
+                corners_dict[id] = corners[index]
+                        
+        return corners_dict
     
     def estimate_marker_pose(self, img_points):
         img_pts = img_points.reshape((4, 2)).astype(np.float64)
         
-        ret, rvec, tvec = cv.solvePnP(object_points, img_pts, self.camera.intrinsics, self.camera.distortion_coefficients, flags=cv.SOLVEPNP_IPPE_SQUARE)
+        rvec = np.array([], dtype=np.float64)
+        tvec = np.array([], dtype=np.float64)
+
+        ret, rvec, tvec = cv.solvePnP(object_points, img_pts, self.camera.intrinsics, self.camera.distortion_coefficients, rvec= rvec, tvec=tvec, flags=cv.SOLVEPNP_IPPE_SQUARE)
         if ret:
+            tvec, tvec = cv.solvePnPRefineLM(object_points, img_pts, self.camera.intrinsics, self.camera.distortion_coefficients, rvec, tvec)
             tvec = tvec.reshape(3,)
             rvec = rvec.reshape(3,)
         return (tvec, rvec), ret
-    
-    def compute_approach(self, point, orientation, distance):
-        # create a normalized vector from point to robot origo
-        v = -point/np.linalg.norm(point)
-        
-        # compute the z coordiante (b side of triangle)
-        z = (distance/np.sin(pi/2))*np.sin(pi/3)
-        
-        # compute the scaling factor for the normalised vector
-        s = z / sqrt(pow(v[0], 2) + pow(v[1], 2))
-        
-        # create the final target point
-        target = point + (v*s)
-        
-        #replace the z coordinate
-        target[2] = z
-        
-        
-        return target
-
     
     def center_marker_in_frame(self, point, R_tcp2base, T_tcp2base):
         camera_offset = (self.camera.R_cam2tcp @ self.camera.T_cam2tcp)
         target = point - camera_offset # offset target point
         
         p0 = T_tcp2base
-        pr = (R_tcp2base @ np.array([0,0,1], dtype=np.float64))
+        pr = (R_tcp2base @ np.array([0,0,1], dtype=np.float64)) # vector in z-direction 
         v0 = pr/np.linalg.norm(pr)
         p1 = target.copy()
         v1 = (p1-p0)/np.linalg.norm(p1-p0)
         # Calculate the axis of rotation
         N = np.cross(v0, v1)
-        
         
         # Handle parallel vectors case (norm is near zero)
         if np.linalg.norm(N) < 1e-6:
@@ -104,8 +94,8 @@ class Detector:
             dot_prod = np.dot(v0, v1)
             dot_prod = max(-1.0, min(1.0, dot_prod))
             theta = np.arccos(dot_prod)
-        ### Rodrigues' Rotation Formula Implementation ###
-        # Create the skew-symmetric matrix from the N vector
+        ### Rodrigues' rotation formula implementation
+        # skew-symmetric matrix from the N vector
         N_skew = np.array([
                 [  0,    -N[2],  N[1]],
                 [N[2],   0,     -N[0]],
@@ -113,13 +103,14 @@ class Detector:
             ], dtype=np.float64)
 
         N_col = N.reshape((3,1))
-        # Create the outer product matrix N*transpose(N)
+        # the outer product matrix (N*transpose(N))
         N_outer = N_col @ np.transpose(N_col)
 
         # The complete rotation matrix R
         R = np.cos(theta)*np.eye(3) + np.sin(theta)*N_skew + (1-np.cos(theta))*N_outer
 
-        # Convert rotation matrix to rotation vector (euler-angle) presentation
+        # Apply rotation to the current orientation
         new_tool_orientation = R @ R_tcp2base
+        # Convert rotation matrix to rotation vector (euler-angle) presentation
         R_tcp2base_new, _ = cv.Rodrigues(new_tool_orientation)
         return R_tcp2base_new.flatten()

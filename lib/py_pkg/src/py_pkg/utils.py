@@ -1,4 +1,5 @@
 import numpy as np
+from math import pi, sqrt
 
 def normalise_tcp(p):
     #pointer_offset = 2 + 5 + 23 + 10
@@ -19,3 +20,22 @@ def build_pose(tvec, rvec):
     pose[0:3] = tvec[0:3]
     pose[3:5] = rvec[0:3]
     return pose
+
+def compute_approach(self, point, orientation, distance):
+    # create a normalized vector from point to robot origo
+    v = -point/np.linalg.norm(point)
+    
+    # compute the z coordiante (b side of triangle)
+    z = (distance/np.sin(pi/2))*np.sin(pi/3)
+    
+    # compute the scaling factor for the normalised vector
+    s = z / sqrt(pow(v[0], 2) + pow(v[1], 2))
+    
+    # create the final target point
+    target = point + (v*s)
+    
+    #replace the z coordinate
+    target[2] = z
+    
+    
+    return target
