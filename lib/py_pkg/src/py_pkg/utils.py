@@ -2,7 +2,7 @@
 import numpy as np
 from math import pi, sqrt
 
-def apply_rotation_and_translation(point: np.array, R_matrix: np.array, t_vector: np.array):
+def apply_rotation_and_translation(point: np.array, R_matrix: np.array, t_vector: np.array) -> np.array:
     """Function to apply a rotation and translation to a 3D point.
     
     Parameters
@@ -13,6 +13,11 @@ def apply_rotation_and_translation(point: np.array, R_matrix: np.array, t_vector
         A 3x3 rotation matrix.
     t_vector : numpy.array
         A translation vector of dimensions 3x1
+        
+    Returns
+    -------
+    numpy.narray
+        The transformed 3D point.
     
     Raises
     ------
