@@ -1,17 +1,27 @@
+"""utilities.py - A collection of helper functions."""
 import numpy as np
 from math import pi, sqrt
 
-def normalise_tcp(p):
-    #pointer_offset = 2 + 5 + 23 + 10
-    pointer_offset = 31 # measured
-    p = np.array(p, dtype=np.float64).copy()
-    p[2] -= pointer_offset / 1000
-    return p
-
 def apply_rotation_and_translation(point: np.array, R_matrix: np.array, t_vector: np.array):
-    #TODO assert to check that point is a 3D point
-    #TODO assert to check that R_matrix is 3x3 matrix
-    #TODO assert to check that t_vector is a 3D vector
+    """Function to apply a rotation and translation to a 3D point.
+    
+    Parameters
+    ----------
+    point : numpy.array
+        A 3D point of dimensions 3x1.
+    R_matrix : numpy.array
+        A 3x3 rotation matrix.
+    t_vector : numpy.array
+        A translation vector of dimensions 3x1
+    
+    Raises
+    ------
+    AssertionError
+        If the shape of any input parameter is incorrect.
+    """
+    assert point.shape == t_vector.shape, "shape of point and t_vector should match"
+    assert R_matrix.shape == (3,3), "R_matrix has incorrect shape, should be 3x3"
+    
     point = np.array(point, dtype=np.float64).copy()
     return R_matrix @ point + t_vector
 

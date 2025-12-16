@@ -1,9 +1,19 @@
+"""cailb.py - Camera calibration module."""
+
 from dataclasses import dataclass
 import numpy as np
 import cv2 as cv
 import warnings
 @dataclass
 class CalibratedCamera:
+    """A class to collect camera related paramters in a single object.
+    
+    Args:
+        var_int (int): An integer.
+        var_str (str): A string.
+
+    """
+    
     R_cam2tcp: np.array
     T_cam2tcp: np.array
     distortion_coefficients: np.array
@@ -73,7 +83,7 @@ class CalibratedCamera:
         
         Parameters
         ----------
-        path : string
+        path : str
             The path to the YAML config file destination.
         """
         fs = cv.FileStorage(path, cv.FileStorage_WRITE)
@@ -105,11 +115,11 @@ def new_calibration(images, R_gripper2base, t_gripper2base):
         
     Parameters
     ----------
-    images : list of np.array
+    images : list of numpy.array
         List of input images of calibration board.        
-    R_gripper2base : list of np.array
+    R_gripper2base : list of numpy.array
         List of rotation vectors of the robot pose at each image, following the image sequence order.
-    t_gripper2base : list of np.array
+    t_gripper2base : list of numpy.array
         List of translation vectors of the robot pose at each image, following the image sequence order.
     
     Returns

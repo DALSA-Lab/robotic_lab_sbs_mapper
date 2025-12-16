@@ -1,16 +1,16 @@
-Dummy Python Package
+Python Package
 ====================
 
-Math Utilities
---------------
+Utilities
+---------
 
-.. automodule:: py_pkg.math_utils
+.. automodule:: py_pkg.utils
    :members:
    :show-inheritance:
 
-String Utilities
-----------------
+Camera Calibration
+------------------
 
-.. automodule:: py_pkg.string_utils
+.. automodule:: py_pkg.calib
    :members:
    :show-inheritance:

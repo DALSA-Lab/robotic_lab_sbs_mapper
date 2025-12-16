@@ -10,9 +10,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib/py_pkg/src"))
 
-project = 'My Project'
-copyright = '2025, Alan Mansour, DALSA'
-author = 'Alan Mansour'
+project = 'Robotic SBS Plate Mapper'
+copyright = '2025, Jesper Thøgersen, DALSA'
+author = 'Jesper Thøgersen'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -47,3 +47,8 @@ source_suffix = {
 }
 
 exclude_patterns = ['README.md']
+
+# Should probably just add these as part of requirements
+autodoc_mock_imports = [
+    "numpy", "cv2", "librealsense2"
+]
