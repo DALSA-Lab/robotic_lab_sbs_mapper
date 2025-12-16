@@ -1,9 +1,9 @@
-from detector import Detector
 import cv2 as cv
 import numpy as np
 from ur_commander import CustomURRobot, TaskPose, JointPositions
-from utils import apply_rotation_and_translation, build_pose
-from calib import CalibratedCamera, calibrate_hand_eye
+from py_pkg.detector import Detector
+from py_pkg.utils import apply_rotation_and_translation, build_pose
+from py_pkg.calib import CalibratedCamera, new_calibration
 import logging
 import pyrealsense2 as rs
 import glob
@@ -132,12 +132,12 @@ for fname in images_loc:
     image = cv.imread(fname)
     images.append(image)
     
-camera = calibrate_hand_eye(images, R_gripper2Base, t_gripper2Base)
+camera = new_calibration(images, R_gripper2Base, t_gripper2Base)
 camera.set_frame_grabber(lambda: get_realsense_frame(pipeline, CV_NAMED_WINDOW))
 
 robot = CustomURRobot("192.168.1.102", logging.INFO)
 
-d = Detector(ar_dict=cv.aruco.DICT_4X4_50, params=None, camera=camera)
+d = Detector(aruco_dict=cv.aruco.DICT_4X4_50, aruco_params=None, camera=camera)
 
 
 # initial scan
@@ -198,7 +198,7 @@ for id in global_ids:
     T_tcp2base = np.array(tool_pose[0:3], dtype=np.float64).copy()
         
     # compute the required tool rotation to align camera to marker
-    desired_rotvec = d.center_marker_in_frame(point=tvec.reshape(3,), R_tcp2base=R_tcp2base, T_tcp2base=T_tcp2base.reshape(3,))
+    desired_rotvec = d.align_camera_to_point(point=tvec.reshape(3,), R_tcp2base=R_tcp2base, T_tcp2base=T_tcp2base.reshape(3,))
     
     # align camera to marker center at scanning pose
     tool_pose = build_pose(T_tcp2base, desired_rotvec)    

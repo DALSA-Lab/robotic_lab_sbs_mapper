@@ -14,3 +14,11 @@ Camera Calibration
 .. automodule:: py_pkg.calib
    :members:
    :show-inheritance:
+
+ArUco Detector
+------------------
+
+.. automodule:: py_pkg.detector
+   :members:
+   :show-inheritance:
+

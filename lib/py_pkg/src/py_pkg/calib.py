@@ -6,35 +6,49 @@ import cv2 as cv
 import warnings
 @dataclass
 class CalibratedCamera:
-    """A class to collect camera related paramters in a single object.
-    
-    Args:
-        var_int (int): An integer.
-        var_str (str): A string.
+    """
+    Collects camera-related parameters in a single object.
 
+    Parameters
+    ----------
+    R_cam2tcp : numpy.ndarray
+        Rotation matrix from camera to TCP.
+    T_cam2tcp : numpy.ndarray
+        Translation vector from camera to TCP.
+    distortion_coefficients : numpy.ndarray
+        Camera distortion coefficients.
+    intrinsics : numpy.ndarray
+        Camera intrinsic matrix.
+    frame_grabber : callable
+        Device-specific callable that grabs a single frame.
+    image_width : int
+        Image width in pixels.
+    image_height : int
+        Image height in pixels.
     """
     
     R_cam2tcp: np.array
     T_cam2tcp: np.array
     distortion_coefficients: np.array
     intrinsics: np.array
-    frame_grabber: callable # device specific callable method for grapping a single frame from the camera device
+    frame_grabber: callable
     image_width: int
     image_height: int
     
     def size(self):
-        """Get image size in pixels.
+        """
+        Get image size in pixels.
 
         Returns
         -------
         tuple
-            Image size in pixels, as a touple of image width and height (w, h).
-
+            Image size in pixels as (width, height).
         """
         return (self.image_width, self.image_height)
 
     def grab_frame(self):
-        """Wrapper to invoke the `.frame_grabber()` method.
+        """
+        Wrapper to invoke the `.frame_grabber()` method.
 
         Raises
         ------
@@ -48,7 +62,8 @@ class CalibratedCamera:
     
     @classmethod
     def new_from_config(cls, path: str, frame_grapper: callable):
-        """Constructor to create instance from YAML config
+        """
+        Constructor to create instance from YAML config
         
         Parameters
         ----------
@@ -62,7 +77,6 @@ class CalibratedCamera:
         -------
         CalibratedCamera
             A `CalibratedCamera` object.
-
         """
         
         # open YAML file using OpenCV's FileStore since it supports converting OpenCV matrix to numpy
@@ -79,7 +93,8 @@ class CalibratedCamera:
         return cls(R_cam2tcp, T_cam2tcp, dist_coeffs, camera_matrix, frame_grapper, image_width, image_height)
     
     def export_to_config(self, path):
-        """Export CalibratedCamera parameters to a YAML file.
+        """
+        Export CalibratedCamera parameters to a YAML file.
         
         Parameters
         ----------
