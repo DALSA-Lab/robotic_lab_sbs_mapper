@@ -11,17 +11,6 @@ import re
 import json
 import time
 
-R_cam2tcp = np.array([
-    [0.7031712873773839, -0.7108982951179903, -0.01318160105478331],
-    [0.7110113851610904, 0.7029476017317904, 0.01809639165225672],
-    [-0.003598719124931573, -0.02209713143960507, 0.9997493515890874]
-], dtype=np.float64)
-
-T_cam2tcp = np.array( [0.01239759056065678,
- -0.0570573497099558,
- 0.01802776294011691], dtype=np.float64
-)
-
 # Scanning poses for initial scan. Choose one
 # # camera down poses (all)
 # scanning_poses = [ { "joint_positions": [ 0.6977952122688293, -1.0602992934039612, -1.4912654161453247, -1.705547948876852, 1.210611343383789, -3.321655813847677 ], "tool_pose": [ 0.2993800031055965, 0.031895342573468335, 0.7117841121699572, 0.9818552213634536, 2.4047959286330856, 0.285425863512494 ] }, { "joint_positions": [ -0.8729541937457483, -1.0602955979159852, -1.4912405014038086, -1.7055322132506312, 1.2106153964996338, -3.3216283957110804 ], "tool_pose": [ 0.03190596191561175, -0.2993738551756937, 0.7117983633822628, 2.3970576954818497, 1.007168461924532, -0.2983277031191602 ] }, { "joint_positions": [ -2.443749729787008, -1.0602556031993409, -1.4911922216415405, -1.705536504785055, 1.210623025894165, -3.321659866963522 ], "tool_pose": [ -0.299349936155045, -0.03188706930817878, 0.7118296305163697, 2.6175750048248165, -1.0686848400603248, -0.769603213650489 ] } ]
@@ -94,19 +83,28 @@ CV_NAMED_WINDOW = "feed"
 cv.namedWindow(CV_NAMED_WINDOW)
 
 
-# obtained camera intrinsics and distortion coeffs. should come from calib.py eventually #TODO    
-camera_intrinsics = np.array([
-    [ 1364.83618164062, 0.0, 971.963623046875],
-    [0.0, 1364.55151367188, 575.387329101562],
-    [0.0, 0.0, 1.0]
-], dtype=np.float64)
-
-distortion_coefficients = np.array([
-    0.0, 0.0, 0.0, 0.0, 0.0
-], dtype=np.float64)
-
-
 # Manually create
+# R_cam2tcp = np.array([
+#     [0.7031712873773839, -0.7108982951179903, -0.01318160105478331],
+#     [0.7110113851610904, 0.7029476017317904, 0.01809639165225672],
+#     [-0.003598719124931573, -0.02209713143960507, 0.9997493515890874]
+# ], dtype=np.float64)
+
+# T_cam2tcp = np.array( [0.01239759056065678,
+#  -0.0570573497099558,
+#  0.01802776294011691], dtype=np.float64
+# )
+# camera_intrinsics = np.array([
+#     [ 1364.83618164062, 0.0, 971.963623046875],
+#     [0.0, 1364.55151367188, 575.387329101562],
+#     [0.0, 0.0, 1.0]
+# ], dtype=np.float64)
+
+# distortion_coefficients = np.array([
+#     0.0, 0.0, 0.0, 0.0, 0.0
+# ], dtype=np.float64)
+
+
 # camera = CalibratedCamera(
 #     R_cam2tcp=R_cam2tcp,
 #     T_cam2tcp=T_cam2tcp,
@@ -119,9 +117,9 @@ distortion_coefficients = np.array([
 
 
 # Load from file
-camera = CalibratedCamera.new_from_config("/home/jesper/DTU/KAND/calibrations/dec9/camera_calibration.yml", lambda: get_realsense_frame(pipeline, CV_NAMED_WINDOW))
+# camera = CalibratedCamera.new_from_config("/home/jesper/DTU/KAND/calibrations/dec9/camera_calibration.yml", lambda: get_realsense_frame(pipeline, CV_NAMED_WINDOW))
 
-# # Calibrate from images and poses
+# Calibrate from images and poses
 (R_gripper2Base, t_gripper2Base), ok = extract_poses_from_file("/home/jesper/DTU/KAND/ur_commander/examples/custom_waypoints.json")
 
 # Load images from folder 
@@ -132,7 +130,8 @@ for fname in images_loc:
     image = cv.imread(fname)
     images.append(image)
     
-camera = new_calibration(images, R_gripper2Base, t_gripper2Base)
+camera = new_calibration(images, R_gripper2Base, t_gripper2Base, (5,8,0.03))
+camera.export_to_config("calibrated_camera.yml")
 camera.set_frame_grabber(lambda: get_realsense_frame(pipeline, CV_NAMED_WINDOW))
 
 robot = CustomURRobot("192.168.1.102", logging.INFO)
@@ -163,18 +162,17 @@ for poses in scanning_poses:
     T_tcp2base = np.array(tool_pose[0:3], dtype=np.float64).copy()
     
     # for each id, compute an initial pose
-    for id, corners in detected_markers.items():
+    for id, img_points in detected_markers.items():
         print("target ID:", id) 
         
-        img_points = corners
         (t_vector, r_vector), ok = d.estimate_marker_pose(img_points)
         if not ok:
-            print("failed to compute pose for marker with ID: ", )
+            print("failed to compute pose for marker with ID:", id)
         
         print(f"target ID: {id}'s distance from camera:\t{t_vector} with r_vector: {r_vector}")
         
         # transform from camera to TCP
-        marker_in_tcp = (apply_rotation_and_translation(t_vector, R_cam2tcp, T_cam2tcp))
+        marker_in_tcp = (apply_rotation_and_translation(t_vector, camera.R_cam2tcp, camera.T_cam2tcp))
         print(f"target ID: {id} located at (TCP space):\t{marker_in_tcp}")
         
         # transform from TCP to base            
@@ -202,19 +200,17 @@ for id in global_ids:
     
     # align camera to marker center at scanning pose
     tool_pose = build_pose(T_tcp2base, desired_rotvec)    
-    #robot.movej(TaskPose(pose), blocking=True)
+    #robot.movej(TaskPose(tool_pose), blocking=True)
     
     #joint_positions, tool_pose = robot.read_joint_and_task_space_data()
     R_tcp2base, _ = cv.Rodrigues(np.array(tool_pose[3:6], dtype=np.float64))
     T_tcp2base = np.array(tool_pose[0:3], dtype=np.float64).copy()
 
     depth = np.sqrt(np.power(tvec[0] - T_tcp2base[0],2)+np.power(tvec[1] - T_tcp2base[1],2)+np.power(tvec[2] - T_tcp2base[2],2))
-    z = 0
-    if depth > 0.25:
-        z = depth - 0.3
+    z = 0.25
     v = np.array([[0],[0],[1]])
     v = (v / np.linalg.norm(v) ) * z
-    v_in_base = T_tcp2base + (R_tcp2base @ v.flatten())
+    v_in_base = apply_rotation_and_translation(v.flatten(), R_tcp2base, T_tcp2base)
     
     new_pose = build_pose(v_in_base, desired_rotvec)    
     robot.movej(TaskPose(new_pose), blocking=True)
@@ -230,14 +226,16 @@ for id in global_ids:
         # look for aruco markers in the image
         detected_markers = d.detect_markers()
         
-        # if no corners were found we did not find any markers so we continue to next pose
+        # if no markers were found we continue to next pose
         if not detected_markers:
             continue
         
+        # check if the targeted marker was one of the detected markers
         if not id in detected_markers:
             print("unable to find target dict in frame")
             break
     
+        # estimate the pose wrt to the camera frame and store in list
         (t_vector, r_vector), ok = d.estimate_marker_pose(detected_markers[id])
         if not ok:
             print("failed to compute pose for marker with ID: ", )
@@ -256,7 +254,7 @@ for id in global_ids:
     print(f"Marker {id}'s mean distance from camera:", mean_position)
     
     # transform from camera to TCP
-    marker_in_tcp = (apply_rotation_and_translation(mean_position, R_cam2tcp, T_cam2tcp))
+    marker_in_tcp = (apply_rotation_and_translation(mean_position, camera.R_cam2tcp, camera.T_cam2tcp))
     
     #marker_in_tcp[2] += 0.005
     
