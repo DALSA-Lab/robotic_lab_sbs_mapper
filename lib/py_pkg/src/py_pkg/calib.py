@@ -124,7 +124,7 @@ class CalibratedCamera:
         
         return
 
-def new_calibration(images, R_gripper2base, t_gripper2base, board: tuple):
+def new_calibration(images, R_gripper2base, t_gripper2base):
     """
     Perform lens and hand-eye calibration to obtain a CalibratedCamera object.
         
@@ -157,13 +157,11 @@ def new_calibration(images, R_gripper2base, t_gripper2base, board: tuple):
         raise AssertionError("Length of input lists does not match")
     
     # these should be passable?
-    # chessboard_width = 5
-    # chessboard_height = 8
-    # square_size = 0.03 # unit m
-    assert len(board) == 3, "Incorrect number of chessboard identifiers"
-    chessboard_width, chessboard_height, square_size = board
-    
+    chessboard_width = 5
+    chessboard_height = 8
     chessboard_pattern = (chessboard_width, chessboard_height)
+    square_size = 0.03 # unit m
+    #
     
     # create "ground-truth" chessboard corners to compare against
     object = np.zeros((chessboard_width * chessboard_height, 3), np.float32) # OpenCV only support float32 for cameraCalibration
