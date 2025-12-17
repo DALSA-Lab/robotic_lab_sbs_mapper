@@ -2,6 +2,7 @@ import cv2 as cv
 import numpy as np
 from math import sqrt, pow, pi
 from .calib import CalibratedCamera
+from .utils import apply_rotation_and_translation
 
 #TODO this should go somewhere else....
 marker_length = 0.04
@@ -137,7 +138,7 @@ class Detector:
     
     def align_camera_to_point(self, point, R_tcp2base, T_tcp2base):
         """
-        Function to generate a new robot orientation to align the camera center with a 3D point.
+        Function to generate a new robot orientation to align the camera optical center with a 3D point.
         
         Parameters
         ----------
@@ -154,14 +155,13 @@ class Detector:
             A rotation vector, which when applied to the robot tool aligns the camera to the desired point.
          
         """
-        camera_offset = (self.camera.R_cam2tcp @ self.camera.T_cam2tcp)
-        target = point - camera_offset # offset target point
+        cam_in_base = apply_rotation_and_translation(self.camera.T_cam2tcp, R_tcp2base, T_tcp2base)
+        R_cam2base = R_tcp2base @ self.camera.R_cam2tcp
         
-        p0 = T_tcp2base
-        pr = (R_tcp2base @ np.array([0,0,1], dtype=np.float64)) # vector in z-direction 
-        v0 = pr/np.linalg.norm(pr)
-        p1 = target.copy()
-        v1 = (p1-p0)/np.linalg.norm(p1-p0)
+        v0 = (R_cam2base @ np.array([0,0,1], dtype=np.float64)) # vector in z-direction  
+        v0 = v0/np.linalg.norm(v0)
+        v1 = point - cam_in_base
+        v1 = v1/np.linalg.norm(v1)
         # Calculate the axis of rotation
         N = np.cross(v0, v1)
         
@@ -171,9 +171,9 @@ class Detector:
                 R = np.eye(3)
             else: # Vectors are anti-parallel (180 degree rotation needed)
                 # Choose an arbitrary perpendicular axis for 180 deg rotation
-                N = np.cross(np.array([[1], [0], [0]], dtype=np.float64), v0)
+                N = np.cross(np.array([1.0, 0.0, 0.0], dtype=np.float64), v0)
                 if np.linalg.norm(N) < 1e-6:
-                    N = np.cross(np.array([[0], [1], [0]], dtype=np.float64), v0)
+                    N = np.cross(np.array([0.0, 1.0, 0.0], dtype=np.float64), v0)
                 N = N / np.linalg.norm(N)
                 theta = pi # 180 degrees
         else:
@@ -202,4 +202,5 @@ class Detector:
         new_tool_orientation = R @ R_tcp2base
         # Convert rotation matrix to rotation vector (euler-angle) presentation
         R_tcp2base_new, _ = cv.Rodrigues(new_tool_orientation)
-        return R_tcp2base_new.flatten()
+        R_tcp2base_new = R_tcp2base_new.flatten()
+        return R_tcp2base_new

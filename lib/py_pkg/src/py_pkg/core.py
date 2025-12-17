@@ -29,11 +29,11 @@ scanning_poses = [{"joint_positions": [-0.878883186970846, -0.6575910013965149, 
 
 
 # own table
-scanning_poses = [ { "joint_positions": [ 0.42052334547042847, -0.9788521093181153, -1.683270812034607, -2.03304447750234, 1.5599732398986816, -0.3855341116534632 ], "tool_pose": [ 0.24905170182472955, -0.034941429697866906, 0.5982163113793078, -2.909309877637324, 1.1661340537202702, -0.028255084240643095 ] }, { "joint_positions": [ -1.1501897017108362, -0.9789041441730042, -1.6833593845367432, -2.0330854854979457, 1.5599448680877686, -0.3855021635638636 ], "tool_pose": [ -0.03491267054139515, -0.24907942120074844, 0.5981612202657985, 1.2324610487710859, -2.8812154278516693, 0.027611297215269885 ] }, { "joint_positions": [ -2.720891062413351, -0.9788157504848023, -1.6833521127700806, -2.0330854854979457, 1.559952974319458, -0.38554555574526006 ], "tool_pose": [ -0.249046727387719, 0.03490422390117855, 0.5981833064030163, -1.1618668675587172, -2.8994618144408437, 0.011045965251221894 ] } ]
-scanning_poses = [ { "joint_positions": [ 0.42052334547042847, -0.9788521093181153, -1.683270812034607, -2.03304447750234, 1.5599732398986816, -0.3855341116534632 ], "tool_pose": [ 0.24905170182472955, -0.034941429697866906, 0.5982163113793078, -2.909309877637324, 1.1661340537202702, -0.028255084240643095 ] }]
+# scanning_poses = [ { "joint_positions": [ 0.42052334547042847, -0.9788521093181153, -1.683270812034607, -2.03304447750234, 1.5599732398986816, -0.3855341116534632 ], "tool_pose": [ 0.24905170182472955, -0.034941429697866906, 0.5982163113793078, -2.909309877637324, 1.1661340537202702, -0.028255084240643095 ] }, { "joint_positions": [ -1.1501897017108362, -0.9789041441730042, -1.6833593845367432, -2.0330854854979457, 1.5599448680877686, -0.3855021635638636 ], "tool_pose": [ -0.03491267054139515, -0.24907942120074844, 0.5981612202657985, 1.2324610487710859, -2.8812154278516693, 0.027611297215269885 ] }, { "joint_positions": [ -2.720891062413351, -0.9788157504848023, -1.6833521127700806, -2.0330854854979457, 1.559952974319458, -0.38554555574526006 ], "tool_pose": [ -0.249046727387719, 0.03490422390117855, 0.5981833064030163, -1.1618668675587172, -2.8994618144408437, 0.011045965251221894 ] } ]
+# scanning_poses = [ { "joint_positions": [ 0.42052334547042847, -0.9788521093181153, -1.683270812034607, -2.03304447750234, 1.5599732398986816, -0.3855341116534632 ], "tool_pose": [ 0.24905170182472955, -0.034941429697866906, 0.5982163113793078, -2.909309877637324, 1.1661340537202702, -0.028255084240643095 ] }]
 
 # 5 markers test
-scanning_poses = [ { "joint_positions": [ -1.3773406187640589, -1.6655341587462367, -1.5182075500488281, -1.5289876957288762, 1.5669612884521484, -0.6065061728106897 ], "tool_pose": [ -0.02838596835398986, -0.5482883750379605, 0.469153264349949, 1.2231224504237515, -2.8936990677192846, 0.0001416807411630961 ] } ]
+# scanning_poses = [ { "joint_positions": [ -1.3773406187640589, -1.6655341587462367, -1.5182075500488281, -1.5289876957288762, 1.5669612884521484, -0.6065061728106897 ], "tool_pose": [ -0.02838596835398986, -0.5482883750379605, 0.469153264349949, 1.2231224504237515, -2.8936990677192846, 0.0001416807411630961 ] } ]
 
 def extract_poses_from_file(fpath):
     if fpath == "":
@@ -117,7 +117,9 @@ cv.namedWindow(CV_NAMED_WINDOW)
 
 
 # Load from file
-# camera = CalibratedCamera.new_from_config("/home/jesper/DTU/KAND/calibrations/dec9/camera_calibration.yml", lambda: get_realsense_frame(pipeline, CV_NAMED_WINDOW))
+# camera = CalibratedCamera.new_from_config("/home/jesper/DTU/KAND/calibrations/dec9/camera_calibration.yml", lambda: get_realsense_frame(pipeline, CV_NAMED_WINDOW)) # bad calib
+
+# camera = CalibratedCamera.new_from_config("/home/jesper/DTU/KAND/calibrations/calibrated_camera.yml", lambda: get_realsense_frame(pipeline, CV_NAMED_WINDOW)) # great calib
 
 # Calibrate from images and poses
 (R_gripper2Base, t_gripper2Base), ok = extract_poses_from_file("/home/jesper/DTU/KAND/ur_commander/examples/custom_waypoints.json")
@@ -200,20 +202,53 @@ for id in global_ids:
     
     # align camera to marker center at scanning pose
     tool_pose = build_pose(T_tcp2base, desired_rotvec)    
-    #robot.movej(TaskPose(tool_pose), blocking=True)
+    robot.movej(TaskPose(tool_pose), blocking=True)
     
-    #joint_positions, tool_pose = robot.read_joint_and_task_space_data()
+    joint_positions, tool_pose = robot.read_joint_and_task_space_data()
     R_tcp2base, _ = cv.Rodrigues(np.array(tool_pose[3:6], dtype=np.float64))
     T_tcp2base = np.array(tool_pose[0:3], dtype=np.float64).copy()
 
-    depth = np.sqrt(np.power(tvec[0] - T_tcp2base[0],2)+np.power(tvec[1] - T_tcp2base[1],2)+np.power(tvec[2] - T_tcp2base[2],2))
-    z = 0.25
+    distance = np.sqrt(np.power(tvec[0] - T_tcp2base[0],2)+np.power(tvec[1] - T_tcp2base[1],2)+np.power(tvec[2] - T_tcp2base[2],2))
+    z = distance - 0.25
     v = np.array([[0],[0],[1]])
     v = (v / np.linalg.norm(v) ) * z
     v_in_base = apply_rotation_and_translation(v.flatten(), R_tcp2base, T_tcp2base)
     
-    new_pose = build_pose(v_in_base, desired_rotvec)    
+    new_pose = build_pose(v_in_base, desired_rotvec)
+    
     robot.movej(TaskPose(new_pose), blocking=True)
+    
+    joint_positions, tool_pose = robot.read_joint_and_task_space_data()
+    
+    R_tcp2base, _ = cv.Rodrigues(np.array(tool_pose[3:6], dtype=np.float64))
+    T_tcp2base = np.array(tool_pose[0:3], dtype=np.float64).copy() 
+    # verify that the marker is in frame and make any final adjustments
+    # look for aruco markers in the image
+    detected_markers = d.detect_markers()
+    
+    # if no markers were found we continue to next pose
+    if not detected_markers:
+        continue
+    
+    # check if the targeted marker was one of the detected markers
+    if not id in detected_markers:
+        print("unable to find target dict in frame")
+        break
+
+    # estimate the pose again
+    (t_vector, r_vector), ok = d.estimate_marker_pose(detected_markers[id])
+    if not ok:
+        print("failed to compute pose for marker with ID:", id)
+        continue
+    
+    marker_in_tcp = apply_rotation_and_translation(t_vector, camera.R_cam2tcp, camera.T_cam2tcp)
+    marker_in_base = apply_rotation_and_translation(marker_in_tcp, R_tcp2base, T_tcp2base)
+
+    # final realign
+    desired_rotvec = d.align_camera_to_point(point=marker_in_base.reshape(3,), R_tcp2base=R_tcp2base, T_tcp2base=T_tcp2base.reshape(3,))
+    final_pose = build_pose(tool_pose[0:3], desired_rotvec)
+    
+    robot.movej(TaskPose(final_pose), blocking=True)
     
     joint_positions, tool_pose = robot.read_joint_and_task_space_data()
     R_tcp2base, _ = cv.Rodrigues(np.array(tool_pose[3:6], dtype=np.float64))
@@ -238,8 +273,9 @@ for id in global_ids:
         # estimate the pose wrt to the camera frame and store in list
         (t_vector, r_vector), ok = d.estimate_marker_pose(detected_markers[id])
         if not ok:
-            print("failed to compute pose for marker with ID: ", )
-                    
+            print("failed to compute pose for marker with ID:", id)
+            continue
+
         # store for later use
         est.append(t_vector)
         
@@ -255,8 +291,6 @@ for id in global_ids:
     
     # transform from camera to TCP
     marker_in_tcp = (apply_rotation_and_translation(mean_position, camera.R_cam2tcp, camera.T_cam2tcp))
-    
-    #marker_in_tcp[2] += 0.005
     
     # transform from TCP to base            
     marker_in_base = apply_rotation_and_translation(marker_in_tcp, R_tcp2base, T_tcp2base)
