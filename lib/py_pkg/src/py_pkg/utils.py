@@ -1,6 +1,8 @@
 """utilities.py - A collection of helper functions."""
 import numpy as np
 from math import pi, sqrt
+import cv2 as cv
+from ur_commander import TaskPose
 
 def apply_rotation_and_translation(point: np.array, R_matrix: np.array, t_vector: np.array) -> np.array:
     """Function to apply a rotation and translation to a 3D point.
@@ -35,6 +37,12 @@ def build_pose(tvec, rvec):
     pose[0:3] = tvec[0:3]
     pose[3:5] = rvec[0:3]
     return pose
+
+def rot_tran_from_tool_pose(tool_pose: TaskPose):
+    assert len(tool_pose) == 6, "Invalid tool_pose. Unable to extract rotation and translation."
+    R_tcp2base, _ = cv.Rodrigues(np.array(tool_pose[3:6], dtype=np.float64))
+    T_tcp2base = np.array(tool_pose[0:3], dtype=np.float64)
+    return (R_tcp2base, T_tcp2base)
 
 def compute_approach(self, point, orientation, distance):
     # create a normalized vector from point to robot origo

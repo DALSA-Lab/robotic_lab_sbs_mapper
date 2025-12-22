@@ -2,7 +2,7 @@ import cv2 as cv
 import numpy as np
 from ur_commander import CustomURRobot, TaskPose, JointPositions
 from py_pkg.detector import Detector
-from py_pkg.utils import apply_rotation_and_translation, build_pose
+from py_pkg.utils import apply_rotation_and_translation, build_pose, rot_tran_from_tool_pose
 from py_pkg.calib import CalibratedCamera, new_calibration
 import logging
 import pyrealsense2 as rs
@@ -12,6 +12,9 @@ import json
 import time
 
 # Scanning poses for initial scan. Choose one
+
+### NO GRIPPER ATTACHED
+
 # # camera down poses (all)
 # scanning_poses = [ { "joint_positions": [ 0.6977952122688293, -1.0602992934039612, -1.4912654161453247, -1.705547948876852, 1.210611343383789, -3.321655813847677 ], "tool_pose": [ 0.2993800031055965, 0.031895342573468335, 0.7117841121699572, 0.9818552213634536, 2.4047959286330856, 0.285425863512494 ] }, { "joint_positions": [ -0.8729541937457483, -1.0602955979159852, -1.4912405014038086, -1.7055322132506312, 1.2106153964996338, -3.3216283957110804 ], "tool_pose": [ 0.03190596191561175, -0.2993738551756937, 0.7117983633822628, 2.3970576954818497, 1.007168461924532, -0.2983277031191602 ] }, { "joint_positions": [ -2.443749729787008, -1.0602556031993409, -1.4911922216415405, -1.705536504785055, 1.210623025894165, -3.321659866963522 ], "tool_pose": [ -0.299349936155045, -0.03188706930817878, 0.7118296305163697, 2.6175750048248165, -1.0686848400603248, -0.769603213650489 ] } ]
 # #camera down (middle)
@@ -25,7 +28,7 @@ import time
 # # camera up v2 (all)
 # scanning_poses = [{"joint_positions": [0.6918385028839111, -0.6575752657702942, -1.9687697887420654, -1.569751338367798, 1.1915313005447388, -0.19200021425356084], "tool_pose": [0.2146376824878809, -0.042200797116373444, 0.5843579687392579, -2.5614970394375955, 1.0616203461567262, -0.8268181953846278]}, {"joint_positions": [-0.878883186970846, -0.6575910013965149, -1.9687368869781494, -1.5697354596671467, 1.1915277242660522, -0.19193631807436162], "tool_pose": [-0.0421839279475117, -0.21464240435334403, 0.5843736342211288, 1.0671567747502646, -2.5778238850604787, 0.8451084227278082]}, {"joint_positions": [-2.4497361818896692, -0.6575675171664734, -1.968725323677063, -1.5696793359569092, 1.1914911270141602, -0.1919477621661585], "tool_pose": [-0.2146339859826663, 0.04220552190015343, 0.5843909934120658, -0.9745005320190984, -2.3510571718128235, 0.3313774139382412]}]
 # # camera up v2 (middle)
-scanning_poses = [{"joint_positions": [-0.878883186970846, -0.6575910013965149, -1.9687368869781494, -1.5697354596671467, 1.1915277242660522, -0.19193631807436162], "tool_pose": [-0.0421839279475117, -0.21464240435334403, 0.5843736342211288, 1.0671567747502646, -2.5778238850604787, 0.8451084227278082]}]
+#scanning_poses = [{"joint_positions": [-0.878883186970846, -0.6575910013965149, -1.9687368869781494, -1.5697354596671467, 1.1915277242660522, -0.19193631807436162], "tool_pose": [-0.0421839279475117, -0.21464240435334403, 0.5843736342211288, 1.0671567747502646, -2.5778238850604787, 0.8451084227278082]}]
 
 
 # own table
@@ -34,6 +37,18 @@ scanning_poses = [{"joint_positions": [-0.878883186970846, -0.6575910013965149, 
 
 # 5 markers test
 # scanning_poses = [ { "joint_positions": [ -1.3773406187640589, -1.6655341587462367, -1.5182075500488281, -1.5289876957288762, 1.5669612884521484, -0.6065061728106897 ], "tool_pose": [ -0.02838596835398986, -0.5482883750379605, 0.469153264349949, 1.2231224504237515, -2.8936990677192846, 0.0001416807411630961 ] } ]
+
+### NO GRIPPER ATTACHED END
+
+### GRIPPER ATTACHED
+
+# own table
+scanning_poses = [{ "joint_positions": [ 2.201622486114502, -2.140475412408346, 1.351577107106344, -0.7900988024524231, -1.5704696814166468, 2.1869897842407227 ], "tool_pose": [ 0.196397209789177, -0.04195006632687614, 0.45159636056021635, 2.19754701306036, 2.232853188362549, -0.00016905713145977828 ] }]
+
+
+# right table
+# scanning_poses = [{"joint_positions": [0.4508141875267029, -2.3580476246275843, 1.60414964357485, -1.107905702, -1.0898402372943323, 2.1011054515838623], "tool_pose": [ -0.02358961302646431, -0.3392187648344618, 0.46441765778047783, 2.584609968418257, -0.00918993852448859, -0.035130947322033555 ]}]
+### GRIPPER ATTACHED END
 
 def extract_poses_from_file(fpath):
     if fpath == "":
@@ -120,22 +135,22 @@ cv.namedWindow(CV_NAMED_WINDOW)
 # camera = CalibratedCamera.new_from_config("/home/jesper/DTU/KAND/calibrations/dec9/camera_calibration.yml", lambda: get_realsense_frame(pipeline, CV_NAMED_WINDOW)) # bad calib
 
 # camera = CalibratedCamera.new_from_config("/home/jesper/DTU/KAND/calibrations/calibrated_camera.yml", lambda: get_realsense_frame(pipeline, CV_NAMED_WINDOW)) # great calib
+camera = CalibratedCamera.new_from_config("./calibrated_camera.yml", lambda: get_realsense_frame(pipeline, CV_NAMED_WINDOW)) # great calib
 
 # Calibrate from images and poses
-(R_gripper2Base, t_gripper2Base), ok = extract_poses_from_file("/home/jesper/DTU/KAND/ur_commander/examples/custom_waypoints.json")
+# (R_gripper2Base, t_gripper2Base), ok = extract_poses_from_file("/home/jesper/DTU/KAND/ur_commander/examples/custom_waypoints_gripper_new.json")
 
-# Load images from folder 
-images_loc = glob.glob("/home/jesper/DTU/KAND/ur_commander/*.jpg")
-images_loc = sorted(images_loc, key=lambda x: int(re.findall(r'\d+', x)[-1]))
-images = []
-for fname in images_loc:
-    image = cv.imread(fname)
-    images.append(image)
+# # Load images from folder 
+# images_loc = glob.glob("/home/jesper/DTU/KAND/ur_commander/*.jpg")
+# images_loc = sorted(images_loc, key=lambda x: int(re.findall(r'\d+', x)[-1]))
+# images = []
+# for fname in images_loc:
+#     image = cv.imread(fname)
+#     images.append(image)
     
-camera = new_calibration(images, R_gripper2Base, t_gripper2Base, (5,8,0.03))
-camera.export_to_config("calibrated_camera.yml")
+# camera = new_calibration(images, R_gripper2Base, t_gripper2Base, (5,8,0.03))
+# camera.export_to_config("calibrated_camera.yml")
 camera.set_frame_grabber(lambda: get_realsense_frame(pipeline, CV_NAMED_WINDOW))
-
 robot = CustomURRobot("192.168.1.102", logging.INFO)
 
 d = Detector(aruco_dict=cv.aruco.DICT_4X4_50, aruco_params=None, camera=camera)
@@ -160,8 +175,7 @@ for poses in scanning_poses:
     # poll actual tool pose from UR
     _, tool_pose = robot.read_joint_and_task_space_data()
     # create rotation and translation from pose
-    R_tcp2base, _ = cv.Rodrigues(np.array(tool_pose[3:6], dtype=np.float64))
-    T_tcp2base = np.array(tool_pose[0:3], dtype=np.float64).copy()
+    R_tcp2base, T_tcp2base = rot_tran_from_tool_pose(tool_pose)
     
     # for each id, compute an initial pose
     for id, img_points in detected_markers.items():
@@ -194,19 +208,17 @@ for id in global_ids:
     
     tool_pose = obj["robot"]
     
-    R_tcp2base, _ = cv.Rodrigues(np.array(tool_pose[3:6], dtype=np.float64))
-    T_tcp2base = np.array(tool_pose[0:3], dtype=np.float64).copy()
+    R_tcp2base, T_tcp2base = rot_tran_from_tool_pose(tool_pose)
         
     # compute the required tool rotation to align camera to marker
     desired_rotvec = d.align_camera_to_point(point=tvec.reshape(3,), R_tcp2base=R_tcp2base, T_tcp2base=T_tcp2base.reshape(3,))
-    
+
     # align camera to marker center at scanning pose
     tool_pose = build_pose(T_tcp2base, desired_rotvec)    
     robot.movej(TaskPose(tool_pose), blocking=True)
     
     joint_positions, tool_pose = robot.read_joint_and_task_space_data()
-    R_tcp2base, _ = cv.Rodrigues(np.array(tool_pose[3:6], dtype=np.float64))
-    T_tcp2base = np.array(tool_pose[0:3], dtype=np.float64).copy()
+    R_tcp2base, T_tcp2base = rot_tran_from_tool_pose(tool_pose)
 
     distance = np.sqrt(np.power(tvec[0] - T_tcp2base[0],2)+np.power(tvec[1] - T_tcp2base[1],2)+np.power(tvec[2] - T_tcp2base[2],2))
     z = distance - 0.25
@@ -220,8 +232,7 @@ for id in global_ids:
     
     joint_positions, tool_pose = robot.read_joint_and_task_space_data()
     
-    R_tcp2base, _ = cv.Rodrigues(np.array(tool_pose[3:6], dtype=np.float64))
-    T_tcp2base = np.array(tool_pose[0:3], dtype=np.float64).copy() 
+    R_tcp2base, T_tcp2base = rot_tran_from_tool_pose(tool_pose)
     # verify that the marker is in frame and make any final adjustments
     # look for aruco markers in the image
     detected_markers = d.detect_markers()
@@ -251,8 +262,7 @@ for id in global_ids:
     robot.movej(TaskPose(final_pose), blocking=True)
     
     joint_positions, tool_pose = robot.read_joint_and_task_space_data()
-    R_tcp2base, _ = cv.Rodrigues(np.array(tool_pose[3:6], dtype=np.float64))
-    T_tcp2base = np.array(tool_pose[0:3], dtype=np.float64).copy()
+    R_tcp2base, T_tcp2base = rot_tran_from_tool_pose(tool_pose)
     
     est = []
     limit = 200
@@ -295,7 +305,8 @@ for id in global_ids:
     # transform from TCP to base            
     marker_in_base = apply_rotation_and_translation(marker_in_tcp, R_tcp2base, T_tcp2base)
     print(f"Marker {id}'s new location:", marker_in_base)
-        
+    global_ids[id]["pose"] = marker_in_base
+
         
 
         
