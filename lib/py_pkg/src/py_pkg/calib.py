@@ -136,6 +136,8 @@ def new_calibration(images, R_gripper2base, t_gripper2base, board: tuple):
         List of rotation vectors of the robot pose at each image, following the image sequence order.
     t_gripper2base : list of numpy.array
         List of translation vectors of the robot pose at each image, following the image sequence order.
+    board : tuple
+        A tuple containing the number of inner chessboard-corners  (width, height) and square size (mm), e.g (5, 8, 0.03).
     
     Returns
     --------
@@ -156,10 +158,6 @@ def new_calibration(images, R_gripper2base, t_gripper2base, board: tuple):
     if len(images) != len(R_gripper2base) or len(images) != len(t_gripper2base):
         raise AssertionError("Length of input lists does not match")
     
-    # these should be passable?
-    # chessboard_width = 5
-    # chessboard_height = 8
-    # square_size = 0.03 # unit m
     assert len(board) == 3, "Incorrect number of chessboard identifiers"
     chessboard_width, chessboard_height, square_size = board
     
