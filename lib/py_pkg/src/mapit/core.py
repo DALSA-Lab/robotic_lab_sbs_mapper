@@ -1,9 +1,9 @@
 import cv2 as cv
 import numpy as np
 from ur_commander import CustomURRobot, TaskPose, JointPositions
-from py_pkg.detector import Detector
-from py_pkg.utils import apply_rotation_and_translation, build_pose, rot_tran_from_tool_pose
-from py_pkg.calib import CalibratedCamera, new_calibration
+from mapit import Detector
+from mapit import apply_rotation_and_translation, build_pose, rot_tran_from_tool_pose
+from mapit import CalibratedCamera, new_calibration
 import logging
 import pyrealsense2 as rs
 import glob
@@ -257,7 +257,7 @@ for id in global_ids:
 
     # final realign
     desired_rotvec = d.align_camera_to_point(point=marker_in_base.reshape(3,), R_tcp2base=R_tcp2base, T_tcp2base=T_tcp2base.reshape(3,))
-    final_pose = build_pose(tool_pose[0:3], desired_rotvec)
+    final_pose = build_pose(T_tcp2base, desired_rotvec)
     
     robot.movej(TaskPose(final_pose), blocking=True)
     
