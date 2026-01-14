@@ -61,9 +61,89 @@ class CalibratedCamera:
             raise AssertionError("frame_grabber not callable.")
     
     @classmethod
+    def new_calibration(cls, images, R_gripper2base, t_gripper2base, board: tuple, frame_grapper: callable = None):
+        """
+        Perform lens and hand-eye calibration to instantiate a CalibratedCamera instance.
+            
+        Parameters
+        ----------
+        images : list of numpy.array
+            List of input images of calibration board.        
+        R_gripper2base : list of numpy.array
+            List of rotation vectors of the robot pose at each image, following the image sequence order.
+        t_gripper2base : list of numpy.array
+            List of translation vectors of the robot pose at each image, following the image sequence order.
+        board : tuple
+            A tuple containing the number of inner chessboard-corners  (width, height) and square size (mm), e.g (5, 8, 0.03).
+
+        Returns
+        -------
+        CalibratedCamera
+            A `CalibratedCamera` object.
+
+        Raises
+        -----
+        AssertionError
+            If the length of the input lists does not match.
+        RuntimeError
+            If the camera calibration failed.
+        
+        """
+        if len(images) != len(R_gripper2base) or len(images) != len(t_gripper2base):
+            raise AssertionError("Length of input lists does not match")
+        
+        assert len(board) == 3, "Incorrect number of chessboard identifiers"
+        chessboard_width, chessboard_height, square_size = board
+        
+        chessboard_pattern = (chessboard_width, chessboard_height)
+        
+        # create "ground-truth" chessboard corners to compare against
+        object = np.zeros((chessboard_width * chessboard_height, 3), np.float32) # OpenCV only support float32 for cameraCalibration
+        object[:, :2] = np.mgrid[0:chessboard_width, 0:chessboard_height].T.reshape(-1, 2)*square_size
+        
+        image_points = []
+        object_points = []
+        
+        reference_image = None
+        
+        for index, image in enumerate(images):
+            gray =  cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+            reference_image = gray
+            
+            ret, corners = cv.findChessboardCorners(image=gray, patternSize=chessboard_pattern)
+            if ret:
+                object_points.append(object)
+                
+                corners = cv.cornerSubPix(image=gray, corners=corners, winSize=(11,11), zeroZone=(-1, -1), criteria=(cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001))
+                image_points.append(corners.astype(np.float32)) # must also be float32 for cameraCalibration
+            else:
+                warnings.warn(f"Failed to find chessboard corners for image with index: {index}")
+                
+        calib_ok, camera_matrix, distortion_coefficients, R_target2cam, t_target2cam = cv.calibrateCamera(
+            objectPoints=object_points, 
+            imagePoints=image_points,
+            imageSize=reference_image.shape[::-1],
+            cameraMatrix=None,
+            distCoeffs=None
+        )
+        
+        if not calib_ok:
+            raise RuntimeError("Failed to find the camera intrinsics.")
+
+        R_cam2gripper, t_cam2gripper = cv.calibrateHandEye(
+            R_gripper2base=R_gripper2base,
+            t_gripper2base=t_gripper2base,
+            R_target2cam=R_target2cam,
+            t_target2cam=t_target2cam,
+            method=cv.CALIB_HAND_EYE_TSAI)
+        
+        (h,w) = reference_image.shape
+        return cls(R_cam2gripper, t_cam2gripper, distortion_coefficients, camera_matrix, frame_grapper, w, h)
+    
+    @classmethod
     def new_from_config(cls, path: str, frame_grapper: callable):
         """
-        Constructor to create instance from YAML config
+        Constructor to create instance from YAML config.
         
         Parameters
         ----------
@@ -124,92 +204,4 @@ class CalibratedCamera:
         
         return
 
-def new_calibration(images, R_gripper2base, t_gripper2base, board: tuple):
-    """
-    Perform lens and hand-eye calibration to obtain a CalibratedCamera object.
-        
-    Parameters
-    ----------
-    images : list of numpy.array
-        List of input images of calibration board.        
-    R_gripper2base : list of numpy.array
-        List of rotation vectors of the robot pose at each image, following the image sequence order.
-    t_gripper2base : list of numpy.array
-        List of translation vectors of the robot pose at each image, following the image sequence order.
-    board : tuple
-        A tuple containing the number of inner chessboard-corners  (width, height) and square size (mm), e.g (5, 8, 0.03).
     
-    Returns
-    --------
-    CalibratedCamera
-        A `CalibratedCamera` object.
-        
-    Raises
-    -----
-    AssertionError
-        If the length of the input lists does not match.
-    RuntimeError
-        If the camera calibration failed.
-        
-    Notes
-    -----
-    The returned object does not have a `frame_grabber` set. You must manually set this using the `.set_frame_grabber` function afterwards.
-    """
-    if len(images) != len(R_gripper2base) or len(images) != len(t_gripper2base):
-        raise AssertionError("Length of input lists does not match")
-    
-    assert len(board) == 3, "Incorrect number of chessboard identifiers"
-    chessboard_width, chessboard_height, square_size = board
-    
-    chessboard_pattern = (chessboard_width, chessboard_height)
-    
-    # create "ground-truth" chessboard corners to compare against
-    object = np.zeros((chessboard_width * chessboard_height, 3), np.float32) # OpenCV only support float32 for cameraCalibration
-    object[:, :2] = np.mgrid[0:chessboard_width, 0:chessboard_height].T.reshape(-1, 2)*square_size
-    
-    image_points = []
-    object_points = []
-    
-    reference_image = None
-    
-    for index, image in enumerate(images):
-        gray =  cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-        reference_image = gray
-        
-        ret, corners = cv.findChessboardCorners(image=gray, patternSize=chessboard_pattern)
-        if ret:
-            object_points.append(object)
-            
-            corners = cv.cornerSubPix(image=gray, corners=corners, winSize=(11,11), zeroZone=(-1, -1), criteria=(cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001))
-            image_points.append(corners.astype(np.float32)) # must also be float32 for cameraCalibration
-        else:
-            warnings.warn(f"Failed to find chessboard corners for image with index: {index}")
-            
-    calib_ok, camera_matrix, distance_coefficients, R_target2cam, t_target2cam = cv.calibrateCamera(
-        objectPoints=object_points, 
-        imagePoints=image_points,
-        imageSize=reference_image.shape[::-1],
-        cameraMatrix=None,
-        distCoeffs=None
-    )
-    
-    if not calib_ok:
-        raise RuntimeError("Failed to find the camera intrinsics.")
-
-    R_cam2gripper, t_cam2gripper = cv.calibrateHandEye(
-        R_gripper2base=R_gripper2base,
-        t_gripper2base=t_gripper2base,
-        R_target2cam=R_target2cam,
-        t_target2cam=t_target2cam,
-        method=cv.CALIB_HAND_EYE_TSAI)
-    
-    (h,w) = reference_image.shape
-    return CalibratedCamera(
-        distortion_coefficients=distance_coefficients,
-        frame_grabber=None,
-        image_height=h,
-        image_width=w,
-        intrinsics=camera_matrix,
-        R_cam2tcp=R_cam2gripper,
-        T_cam2tcp=t_cam2gripper.reshape(3,)
-    )
