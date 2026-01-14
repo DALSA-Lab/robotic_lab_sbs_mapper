@@ -1,24 +1,23 @@
 Python Package
 ====================
 
-Utilities
----------
-
-.. automodule:: py_pkg.utils
-   :members:
-   :show-inheritance:
-
 Camera Calibration
 ------------------
 
-.. automodule:: py_pkg.calib
+.. automodule:: mapit.calib
    :members:
    :show-inheritance:
 
 ArUco Detector
 ------------------
 
-.. automodule:: py_pkg.detector
+.. automodule:: mapit.detector
    :members:
    :show-inheritance:
 
+Utilities
+---------
+
+.. automodule:: mapit.utils
+   :members:
+   :show-inheritance:

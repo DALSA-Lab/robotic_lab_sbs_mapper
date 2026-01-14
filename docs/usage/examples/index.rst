@@ -6,4 +6,3 @@ Examples
    :caption: Contents:
 
    example_1.md
-   example_2.md
