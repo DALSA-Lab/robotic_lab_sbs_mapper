@@ -50,5 +50,5 @@ exclude_patterns = ['README.md']
 
 # Should probably just add these as part of requirements
 autodoc_mock_imports = [
-    "numpy", "cv2", "librealsense2"
+    "numpy", "cv2", "librealsense2", "ur_commander"
 ]

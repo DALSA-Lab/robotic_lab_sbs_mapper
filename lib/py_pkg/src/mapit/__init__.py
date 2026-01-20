@@ -3,8 +3,9 @@ MapIt package initialization.
 """
 
 from .detector import Detector
-from .calib import CalibratedCamera, new_calibration
+from .calib import CalibratedCamera
 from .utils import *
+from .models import Marker
 
 __version__ = "0.1.0"
 __author__ = "Jesper Thøgersen"

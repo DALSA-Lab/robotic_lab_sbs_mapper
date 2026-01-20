@@ -4,6 +4,7 @@ from ur_commander import CustomURRobot, TaskPose, JointPositions
 from mapit import Detector
 from mapit.utils import *
 from mapit import CalibratedCamera
+from mapit import Marker
 import logging
 import pyrealsense2 as rs
 import glob
@@ -73,7 +74,7 @@ plate_id = 8
 
 
 def scan():
-    detected_ids = {}
+    detected_ids: dict[int, Marker] = {}
     for poses in scanning_poses:
         tool_pose = poses["tool_pose"]
         joint_pose = poses["joint_positions"]
@@ -113,7 +114,7 @@ def scan():
             print(f"target ID: {id} located at (BASE space):\t{marker_in_base}")
             
             # store for later use
-            obj = {"H": marker_in_base, "robot": tool_pose}
+            obj = {"M": Marker(id=id, H=marker_in_base), "robot": tool_pose}
             detected_ids[id] = obj
     return detected_ids
 
@@ -122,18 +123,16 @@ def refine(detected_ids):
     # refinement of pose for each marker
     for id in detected_ids:
         obj = detected_ids[id]
-        H_marker_in_base = obj["H"]
+        marker = obj["M"]
         
         tool_pose = obj["robot"]
         
         R_tcp2base, T_tcp2base = rot_tran_from_tool_pose(tool_pose)
-        H_tcp2base = make_homogeneous(R_tcp2base, T_tcp2base)
-        
-        R_marker_in_base, t_marker_in_base = extract_pose_and_orientation(H_marker_in_base)
-            
+        H_tcp2base = make_homogeneous(R_tcp2base, T_tcp2base)   
+                    
         # compute the required tool rotation to align camera to marker
         origin = apply_transformation(camera.T_cam2tcp, H_tcp2base)
-        desired_rotvec = d.align_camera_to_point(origin=origin, target=t_marker_in_base.reshape(3,), R_tcp2base=R_tcp2base, T_tcp2base=T_tcp2base.reshape(3,))
+        desired_rotvec = d.align_camera_to_point(origin=origin, target=marker.position.reshape(3,), R_tcp2base=R_tcp2base, T_tcp2base=T_tcp2base.reshape(3,))
         
         # align camera to marker center at scanning pose
         tool_pose = build_pose(T_tcp2base, desired_rotvec)    
@@ -143,7 +142,7 @@ def refine(detected_ids):
         R_tcp2base, T_tcp2base = rot_tran_from_tool_pose(tool_pose)
         H_tcp2base = make_homogeneous(R_tcp2base, T_tcp2base)
 
-        distance = np.sqrt(np.power(t_marker_in_base[0] - T_tcp2base[0],2)+np.power(t_marker_in_base[1] - T_tcp2base[1],2)+np.power(t_marker_in_base[2] - T_tcp2base[2],2))
+        distance = np.sqrt(np.power(marker.position[0] - T_tcp2base[0],2)+np.power(marker.position[1] - T_tcp2base[1],2)+np.power(marker.position[2] - T_tcp2base[2],2))
         z = distance - 0.25
         v = np.array([[0],[0],[1]])
         v = (v / np.linalg.norm(v) ) * z
@@ -179,11 +178,9 @@ def refine(detected_ids):
         marker_in_tcp = apply_transformation(H_marker_in_cam, H_cam2tcp)
         marker_in_base = apply_transformation(marker_in_tcp, H_tcp2base)
         
-        _, t_marker_in_base = extract_pose_and_orientation(marker_in_base)
-
         # final realign
         origin = apply_transformation(camera.T_cam2tcp, H_tcp2base)
-        desired_rotvec = d.align_camera_to_point(origin=origin, target=t_marker_in_base.reshape(3,), R_tcp2base=R_tcp2base, T_tcp2base=T_tcp2base.reshape(3,))
+        desired_rotvec = d.align_camera_to_point(origin=origin, target=marker.position.reshape(3,), R_tcp2base=R_tcp2base, T_tcp2base=T_tcp2base.reshape(3,))
         final_pose = build_pose(T_tcp2base, desired_rotvec)
         
         robot.movej(TaskPose(final_pose), blocking=True)

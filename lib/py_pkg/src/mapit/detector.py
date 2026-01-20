@@ -1,6 +1,5 @@
 import cv2 as cv
 import numpy as np
-from math import sqrt, pow, pi
 from .calib import CalibratedCamera
 from .utils import *
 
@@ -129,12 +128,13 @@ class Detector:
         rvec = np.array([], dtype=np.float64)
         tvec = np.array([], dtype=np.float64)
 
+        H_marker_in_cam = np.eye(4)
         ret, rvec, tvec = cv.solvePnP(object_points, img_pts, self.camera.intrinsics, self.camera.distortion_coefficients, rvec= rvec, tvec=tvec, flags=cv.SOLVEPNP_IPPE_SQUARE)
         if ret:
             tvec, tvec = cv.solvePnPRefineLM(object_points, img_pts, self.camera.intrinsics, self.camera.distortion_coefficients, rvec, tvec)
             tvec = tvec.reshape(3,)
             rvec = rvec.reshape(3,)
-        H_marker_in_cam = make_homogeneous(rvec, tvec)
+            H_marker_in_cam = make_homogeneous(rvec, tvec)
         return H_marker_in_cam, ret
     
     def align_camera_to_point(self, origin, target, R_tcp2base, T_tcp2base, method: int = ALIGN_AXIS_ANGLE):
@@ -144,11 +144,15 @@ class Detector:
         Parameters
         ----------
         point : numpy.array
-            A 3D point of dimensions 3x1.
+            A 3D point of dimensions 3x1, describing the camera position in the world frame.
+        point : numpy.array
+            A 3D point of dimensions 3x1, describing the target in the world frame.
         R_tcp2base : numpy.array
             A 3x3 rotation matrix to transfrom from robot tool to robot base coordinate.
         T_tcp2base : numpy.array
             A 3x1 translation vector to transform from robot tool to robot base coordinate.
+        Method : int
+            Flag to select which method to use for aligning camera. Defaults to ALIGN_AXIS_ANGLE.
         
         Returns
         -------
