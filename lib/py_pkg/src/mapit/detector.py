@@ -4,7 +4,7 @@ import cv2 as cv
 import numpy as np
 
 from .calib import CalibratedCamera
-from .utils import *
+from .utils import make_homogeneous, ALIGN_AXIS_ANGLE, ALIGN_LOOK_AT, axis_angle_align, look_at
 
 # TODO this should go somewhere else....
 marker_length = 0.036
@@ -56,6 +56,17 @@ class Detector:
         aruco_params: Optional[cv.aruco.DetectorParameters],
         camera: CalibratedCamera,
     ):
+        """Initialize an ArUco detector with a camera and optional dictionary and parameters.
+
+        Parameters
+        ----------
+        aruco_dict : int
+            OpenCV predefined ArUco dictionary ID (e.g., `cv.aruco.DICT_4X4_50`).
+        aruco_params : Optional[cv.aruco.DetectorParameters]
+            Optional ArUco detector parameters. If None, defaults are used.
+        camera : CalibratedCamera
+            The camera instance used for detection.
+        """
         if aruco_dict:
             self.dictionary = cv.aruco.getPredefinedDictionary(aruco_dict)
         else:
@@ -170,11 +181,11 @@ class Detector:
     def align_camera_to_point(
         self, origin, target, R_tcp2base, T_tcp2base, method: int = ALIGN_AXIS_ANGLE
     ):
-        """Function to generate a new robot orientation to align the camera optical center with a 3D point.
+        """Generate a new robot orientation to align the camera optical center with a 3D point.
 
         Parameters
         ----------
-        point : numpy.array
+        origin : numpy.array
             A 3D point of dimensions 3x1, describing the camera position in the world frame.
         point : numpy.array
             A 3D point of dimensions 3x1, describing the target in the world frame.

@@ -150,7 +150,8 @@ class CalibratedCamera:
                 )  # must also be float32 for cameraCalibration
             else:
                 warnings.warn(
-                    f"Failed to find chessboard corners for image with index: {index}"
+                    f"Failed to find chessboard corners for image with index: {index}",
+                    stacklevel=2
                 )
 
         calib_ok, camera_matrix, distortion_coefficients, R_target2cam, t_target2cam = (
@@ -220,7 +221,7 @@ class CalibratedCamera:
 
     @classmethod
     def new_from_config(cls, path: str, frame_grapper: Callable[[], np.ndarray]):
-        """Constructor to create instance from YAML config.
+        """Create a `CalibratedCamera` from a YAML configuration file.
 
         Parameters
         ----------
@@ -284,7 +285,7 @@ class CalibratedCamera:
 
         return
 
-    def set_frame_grabber(self, callback: Callable[[], np.ndarray]):
+    def set_frame_grabber(self, frame_grabber: Callable[[], np.ndarray]):
         """Set the frame_grabber of a `CalibratedCamera` instance.
 
         Parameters
@@ -293,6 +294,6 @@ class CalibratedCamera:
             A callable method to get an image frame.
 
         """
-        self.frame_grabber = callback
+        self.frame_grabber = frame_grabber
 
         return

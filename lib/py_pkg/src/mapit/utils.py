@@ -13,7 +13,7 @@ ALIGN_LOOK_AT = 1
 def apply_rotation_and_translation(
     point: np.ndarray, R_matrix: np.ndarray, t_vector: np.ndarray
 ) -> np.ndarray:
-    """Function to apply a rotation and translation to a 3D point.
+    """Apply a rotation and translation to a 3D point.
 
     Parameters
     ----------
@@ -43,7 +43,7 @@ def apply_rotation_and_translation(
 
 
 def make_homogeneous(R_matrix: np.ndarray, t_vector: np.ndarray) -> np.ndarray:
-    """Function to create a 4x4 homogeneous transformation matrix from a rotation and translation.
+    """Create a 4x4 homogeneous transformation matrix from a rotation and translation.
 
     Parameters
     ----------
@@ -77,7 +77,8 @@ def make_homogeneous(R_matrix: np.ndarray, t_vector: np.ndarray) -> np.ndarray:
 
 
 def apply_transformation(target: np.ndarray, transformation: np.ndarray) -> np.ndarray:
-    """Function to apply a 4x4 homogeneous transformation to either another 4x4 homogeneous transformation matrix or 3x1 point.
+    """Apply a 4x4 homogeneous transformation to either another 4x4 homogeneous transformation matrix or 3x1 point.
+    
     The shape of the output is identical to the input target.
 
     Parameters
@@ -117,7 +118,7 @@ def apply_transformation(target: np.ndarray, transformation: np.ndarray) -> np.n
 
 
 def extract_pose_and_orientation(H_matrix: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
-    """Function to extract the translation and rotation vector from a 4x4 homogeneous transformation matrix.
+    """Extract the translation and rotation vector from a 4x4 homogeneous transformation matrix.
 
     Parameters
     ----------
@@ -146,7 +147,7 @@ def extract_pose_and_orientation(H_matrix: np.ndarray) -> tuple[np.ndarray, np.n
 
 
 def build_pose(tvec, rvec):
-    """Helper function to combine a translation vector and rotation vector into a 1x6 array, used by the ur_commander.TaskPose.
+    """Combine a translation vector and rotation vector into a 1x6 array, used by the ur_commander.TaskPose.
 
     Parameters
     ----------
@@ -168,7 +169,7 @@ def build_pose(tvec, rvec):
 
 
 def rot_tran_from_tool_pose(tool_pose: ur_commander.TaskPose):
-    """Helper function to extract the rotation matrix and translation vector from a ur_commander.TaskPose
+    """Extract the rotation matrix and translation vector from a ur_commander.TaskPose.
 
     Parameters
     ----------
@@ -193,35 +194,8 @@ def rot_tran_from_tool_pose(tool_pose: ur_commander.TaskPose):
     T_tcp2base = np.array(tool_pose[0:3], dtype=np.float64)
     return (R_tcp2base, T_tcp2base)
 
-
-# TODO determine if this should be part of the package...
-# Ideally, the robot controller should know how to align the robot to the point
-# as it is hard to know the limitations of the applicable robots.
-def compute_approach(point, orientation, distance):
-    """Function to compute a new tool position for marker approach/refinement.
-
-    #TODO
-    """
-    # create a normalized vector from point to robot origo
-    v = -point / np.linalg.norm(point)
-
-    # compute the z coordiante (b side of triangle)
-    z = (distance / np.sin(pi / 2)) * np.sin(pi / 3)
-
-    # compute the scaling factor for the normalised vector
-    s = z / sqrt(pow(v[0], 2) + pow(v[1], 2))
-
-    # create the final target point
-    target = point + (v * s)
-
-    # replace the z coordinate
-    target[2] = z
-
-    return target
-
-
 def look_at(camera_position: np.ndarray, target_position: np.ndarray):
-    """Function to compute a tool orientation that aligns a camera optical center to a point in 3D, using the LookAt method.
+    """Compute a tool orientation that aligns a camera optical center to a point in 3D, using the LookAt method.
 
     Parameters
     ----------
@@ -262,7 +236,7 @@ def axis_angle_align(camera_position, target, R_cam2base):
     ----------
     camera_position : np.ndarray
         A 3x1 vector representing the camera position in the world frame.
-    target_position : np.ndarray
+    target : np.ndarray
         A 3x1 vector representing the target position in the world frame.
     R_cam2base : np.ndarray
         A 3x3 rotation matrix used to compute orientation from camera frame to world frame.
