@@ -151,7 +151,7 @@ class CalibratedCamera:
             else:
                 warnings.warn(
                     f"Failed to find chessboard corners for image with index: {index}",
-                    stacklevel=2
+                    stacklevel=2,
                 )
 
         calib_ok, camera_matrix, distortion_coefficients, R_target2cam, t_target2cam = (
@@ -290,7 +290,7 @@ class CalibratedCamera:
 
         Parameters
         ----------
-        frame_grapper : callable
+        frame_grabber : callable
             A callable method to get an image frame.
 
         """

@@ -8,6 +8,9 @@ from dataclasses import dataclass
 
 import numpy as np
 
+ALIGN_AXIS_ANGLE = 0
+ALIGN_LOOK_AT = 1
+
 
 @dataclass
 class Marker:
@@ -48,6 +51,7 @@ class Marker:
     def position(self) -> np.ndarray:
         """The 3D position vector extracted from the transformation
         matrix (shape: (3,)).
+
         """
         return self.H[:3, 3]
 
@@ -55,5 +59,6 @@ class Marker:
     def orientation(self) -> np.ndarray:
         """The 3x3 rotation matrix extracted from the transformation
         matrix (shape: (3, 3)).
+
         """
         return self.H[:3, :3]

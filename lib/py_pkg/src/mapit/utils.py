@@ -1,13 +1,10 @@
 """utilities.py - A collection of helper functions."""
 
-from math import pi, sqrt
+from math import pi
 
 import cv2 as cv
 import numpy as np
 import ur_commander
-
-ALIGN_AXIS_ANGLE = 0
-ALIGN_LOOK_AT = 1
 
 
 def apply_rotation_and_translation(
@@ -78,7 +75,7 @@ def make_homogeneous(R_matrix: np.ndarray, t_vector: np.ndarray) -> np.ndarray:
 
 def apply_transformation(target: np.ndarray, transformation: np.ndarray) -> np.ndarray:
     """Apply a 4x4 homogeneous transformation to either another 4x4 homogeneous transformation matrix or 3x1 point.
-    
+
     The shape of the output is identical to the input target.
 
     Parameters
@@ -194,6 +191,7 @@ def rot_tran_from_tool_pose(tool_pose: ur_commander.TaskPose):
     T_tcp2base = np.array(tool_pose[0:3], dtype=np.float64)
     return (R_tcp2base, T_tcp2base)
 
+
 def look_at(camera_position: np.ndarray, target_position: np.ndarray):
     """Compute a tool orientation that aligns a camera optical center to a point in 3D, using the LookAt method.
 
@@ -230,7 +228,7 @@ def look_at(camera_position: np.ndarray, target_position: np.ndarray):
 
 
 def axis_angle_align(camera_position, target, R_cam2base):
-    """Function to compute a tool orientation that aligns a camera optical center to a point in 3D, using the axis-angle method.
+    """Compute a tool orientation that aligns a camera optical center to a point in 3D, using the axis-angle method.
 
     Parameters
     ----------

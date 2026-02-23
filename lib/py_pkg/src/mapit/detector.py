@@ -4,7 +4,15 @@ import cv2 as cv
 import numpy as np
 
 from .calib import CalibratedCamera
-from .utils import make_homogeneous, ALIGN_AXIS_ANGLE, ALIGN_LOOK_AT, axis_angle_align, look_at
+from .models import (
+    ALIGN_AXIS_ANGLE,
+    ALIGN_LOOK_AT,
+)
+from .utils import (
+    axis_angle_align,
+    look_at,
+    make_homogeneous,
+)
 
 # TODO this should go somewhere else....
 marker_length = 0.036
@@ -66,6 +74,7 @@ class Detector:
             Optional ArUco detector parameters. If None, defaults are used.
         camera : CalibratedCamera
             The camera instance used for detection.
+
         """
         if aruco_dict:
             self.dictionary = cv.aruco.getPredefinedDictionary(aruco_dict)
