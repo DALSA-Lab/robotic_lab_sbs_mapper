@@ -1,8 +1,8 @@
-# Example: Instantiating a CalibratedCamera instance
+# Example: Instantiating a CalibratedCamera
 
-This example demonstrates how to instantiate a CalibratedCamera object. 
+This example demonstrates how to instantiate a `CalibratedCamera` object. 
 
-Three methods for creating a new CalibratedCamera object exist. Each method is covered in its own section below. 
+Three methods for creating a new `CalibratedCamera` object exist. Each method is covered in its own section below. 
 
 ## Perform a calibration
 To perform a calibration, a handful of prerequisites must be met, namely:
@@ -14,7 +14,7 @@ The list of robot poses and collection of images must follow the same order. To 
 
 The chessboard dimensions include the physical size of a single square in millimeters, and the number of inner corners column and row wise.
 
-For this example, the robot poses are stored in an array following the structure from the [ur_commander](https://github.com/DALSA-Lab/ur_commander) `TaskPose`. Each TaskPose is made up of an XYZ coordinate and RxRyRz rotation vector (axis-angle). The rotation vectors must be converted to rotation matrixes before calibration
+For this example, the robot poses are stored in an array following the structure from the [ur_commander](https://github.com/DALSA-Lab/ur_commander) `TaskPose`. Each TaskPose is made up of an XYZ coordinate and RxRyRz rotation vector (axis-angle). The rotation vectors must be converted to rotation matrixes before calibration.
 ```python
 # imports
 import cv2 as cv
@@ -52,12 +52,12 @@ t_gripper2base = []
 for pose in poses:
     if pose["tool_pose"] != None:
         tool_pose = pose["tool_pose"]
-        x, y, z = tool_pose[0:3]
-        rx, ry, rz = tool_pose[3:6]
+        x, y, z = tool_pose[0:3] # extract xyz
+        rx, ry, rz = tool_pose[3:6] # extract RxRyRz
 
-        rvec = np.array([rx,ry,rz], dtype=np.float64)
+        rvec = np.array([rx,ry,rz], dtype=np.float64) # store RxRyRz as vector
 
-        R, _ = cv2.Rodrigues(rvec)
+        R, _ = cv2.Rodrigues(rvec) # using Rodrigues formula, convert from rotation vector to matrix
 
         R_gripper2base.append(R)
         t_gripper2base.append(np.array([x,y,z], dtype=np.float64))
@@ -84,7 +84,7 @@ square_size_m = 0.03 # 30mm square side length
 board = (board_height, board_width, square_size_m)
 ```
 
-A new `CalibratedCamera` object can be obtained by performing a new calibration.
+Finally, a new `CalibratedCamera` object can be obtained by performing a new calibration.
 ```python
 # create new CalibratedCamera object
 camera = CalibratedCamera()
@@ -105,7 +105,7 @@ camera = CalibratedCamera.new_from_config("calibrated_camera.yml", None)
 camera.export_to_config("calibrated_camera2.yml")
 ```
 ## Manual instantiation
-To manually instantiate a CalibratedCamera object, camera parameters must be provided.
+To manually instantiate a CalibratedCamera object, camera parameters must be provided. These may be obtained from other calibration tools, such as the provided C++ Calibrate Hand-eye tool.
 
 ```python
 import numpy as np

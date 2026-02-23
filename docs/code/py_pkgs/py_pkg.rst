@@ -1,6 +1,3 @@
-Python Package
-====================
-
 Camera Calibration
 ------------------
 
@@ -19,5 +16,12 @@ Utilities
 ---------
 
 .. automodule:: mapit.utils
+   :members:
+   :show-inheritance:
+
+Models
+------
+
+.. automodule:: mapit.models
    :members:
    :show-inheritance:
