@@ -11,7 +11,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib/py_pkg/src"))
 
 project = "Robotic SBS Plate Mapper"
-copyright = "2025, Jesper Thøgersen, DALSA"
+copyright = "2026, Jesper Thøgersen, DALSA"
 author = "Jesper Thøgersen"
 
 # -- General configuration ---------------------------------------------------
