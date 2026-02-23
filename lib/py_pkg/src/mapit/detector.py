@@ -196,7 +196,7 @@ class Detector:
         ----------
         origin : numpy.array
             A 3D point of dimensions 3x1, describing the camera position in the world frame.
-        point : numpy.array
+        target : numpy.array
             A 3D point of dimensions 3x1, describing the target in the world frame.
         R_tcp2base : numpy.array
             A 3x3 rotation matrix to transfrom from robot tool to robot base coordinate.

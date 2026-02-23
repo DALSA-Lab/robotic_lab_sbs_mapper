@@ -49,16 +49,17 @@ class Marker:
 
     @property
     def position(self) -> np.ndarray:
-        """The 3D position vector extracted from the transformation
-        matrix (shape: (3,)).
+        """Return the 3D position vector.
 
+        Extracted from the transformation matrix (shape: (3,)).
         """
         return self.H[:3, 3]
 
+
     @property
     def orientation(self) -> np.ndarray:
-        """The 3x3 rotation matrix extracted from the transformation
-        matrix (shape: (3, 3)).
+        """Return the 3x3 rotation matrix.
 
+        Extracted from the transformation matrix (shape: (3, 3)).
         """
         return self.H[:3, :3]
