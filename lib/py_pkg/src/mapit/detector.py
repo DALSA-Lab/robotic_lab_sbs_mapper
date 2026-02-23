@@ -202,7 +202,7 @@ class Detector:
             A 3x3 rotation matrix to transfrom from robot tool to robot base coordinate.
         T_tcp2base : numpy.array
             A 3x1 translation vector to transform from robot tool to robot base coordinate.
-        Method : int
+        method : int
             Flag to select which method to use for aligning camera. Defaults to ALIGN_AXIS_ANGLE.
 
         Returns
