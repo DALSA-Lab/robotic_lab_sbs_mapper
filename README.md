@@ -10,8 +10,6 @@ The documentation includes guides on setup, usage, examples and demos, and sourc
 ## Directory Structure
 ```bash
 .
-├── build
-│   └── html
 ├── docs
 │   ├── architecture
 │   ├── code
@@ -22,8 +20,6 @@ The documentation includes guides on setup, usage, examples and demos, and sourc
     ├── cpp_tools
     └── py_pkg
 ```
-[`build/`](build/) contains the HTML build of the documentation.
-
 [`docs/`](docs/) contains the guides and examples from which the documentation is built.
 
 [`lib/`](lib/) contains the python package ([`py_pkg`](lib/py_pkg/)) and the C++ tools ([`cpp_tools`](lib/cpp_tools/)).
