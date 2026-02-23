@@ -7,7 +7,7 @@ import ur_commander
 ALIGN_AXIS_ANGLE = 0
 ALIGN_LOOK_AT = 1
 
-def apply_rotation_and_translation(point: np.array, R_matrix: np.array, t_vector: np.array) -> np.array:
+def apply_rotation_and_translation(point: np.ndarray, R_matrix: np.ndarray, t_vector: np.ndarray) -> np.ndarray:
     """Function to apply a rotation and translation to a 3D point.
     
     Parameters
@@ -35,7 +35,7 @@ def apply_rotation_and_translation(point: np.array, R_matrix: np.array, t_vector
     point = np.array(point, dtype=np.float64).copy()
     return R_matrix @ point + t_vector
 
-def make_homogeneous(R_matrix: np.array, t_vector: np.array) -> np.array:
+def make_homogeneous(R_matrix: np.ndarray, t_vector: np.ndarray) -> np.ndarray:
     """Function to create a 4x4 homogeneous transformation matrix from a rotation and translation.
     
     Parameters
@@ -69,7 +69,7 @@ def make_homogeneous(R_matrix: np.array, t_vector: np.array) -> np.array:
     ])
     return H
 
-def apply_transformation(target: np.array, transformation: np.array) -> np.array:
+def apply_transformation(target: np.ndarray, transformation: np.ndarray) -> np.ndarray:
     """Function to apply a 4x4 homogeneous transformation to either another 4x4 homogeneous transformation matrix or 3x1 point.
     The shape of the output is identical to the input target.
     
@@ -104,7 +104,7 @@ def apply_transformation(target: np.array, transformation: np.array) -> np.array
    
     return transformation @ target
 
-def extract_pose_and_orientation(H_matrix: np.array) -> tuple[np.ndarray, np.ndarray]:
+def extract_pose_and_orientation(H_matrix: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     """
     Function to extract the translation and rotation vector from a 4x4 homogeneous transformation matrix.
     
@@ -270,7 +270,7 @@ def axis_angle_align(camera_position, target, R_cam2base):
     # Handle parallel vectors case (norm is near zero)
     if np.linalg.norm(N) < 1e-6:
         if np.dot(v0, v1) > 0: # Vectors are parallel and pointing same way (0 rotation)
-            R = np.eye(3)
+            return np.eye(3)
         else: # Vectors are anti-parallel (180 degree rotation needed)
             # Choose an arbitrary perpendicular axis for 180 deg rotation
             N = np.cross(np.array([1.0, 0.0, 0.0], dtype=np.float64), v0)

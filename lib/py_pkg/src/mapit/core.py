@@ -2,7 +2,7 @@ import cv2 as cv
 import numpy as np
 from ur_commander import CustomURRobot, TaskPose, JointPositions
 from mapit import Detector
-from mapit.utils import *
+from mapit.utils import make_homogeneous, extract_pose_and_orientation, rot_tran_from_tool_pose, apply_transformation, build_pose
 from mapit import CalibratedCamera
 from mapit import Marker
 import logging
@@ -27,9 +27,9 @@ scanning_poses = [ { "joint_positions": [ 2.0215814113616943, -2.358035703698629
 scanning_poses = [ { "joint_positions": [ 0.4508020877838135, -2.358047147790426, 1.6040781180011194, -1.1079174441150208, -1.0898602644549769, -1.0404780546771448 ], "tool_pose": [ -0.023442205755523776, -0.33657555977862413, 0.46867671390885335, -0.010642740577652462, -2.9954775886052403, 0.8561700796562706 ] }, { "joint_positions": [ -1.119997803364889, -2.3580318890013636, 1.6040695349322718, -1.1079337757876893, -1.0898845831500452, -1.0405295530902308 ], "tool_pose": [ -0.3365731771025343, 0.023455665594063646, 0.46867745644299885, -1.9034143192360555, -1.8900248367608354, 0.5162820516738351 ] } ]
 
 # init realsense camera
-pipeline = rs.pipeline()
-config = rs.config()
-config.enable_stream(rs.stream.color, 1920, 1080, rs.format.bgr8, 30)
+pipeline = rs.pipeline() # type: ignore[attr-defined]
+config = rs.config() # type: ignore[attr-defined]
+config.enable_stream(rs.stream.color, 1920, 1080, rs.format.bgr8, 30) # type: ignore[attr-defined]
 profile = pipeline.start(config)
 #Warm up
 for _ in range(30):
@@ -49,7 +49,7 @@ def get_realsense_frame(pipeline, window=None):
 CV_NAMED_WINDOW = "feed"
 cv.namedWindow(CV_NAMED_WINDOW)
 
-camera = CalibratedCamera.new_from_config("calibrated_camera.yml", None)
+camera = CalibratedCamera.new_from_config("calibrated_camera.yml", get_realsense_frame(pipeline))
 camera.set_frame_grabber(lambda: get_realsense_frame(pipeline, CV_NAMED_WINDOW))
 
 H_cam2tcp = make_homogeneous(camera.R_cam2tcp, camera.T_cam2tcp)
@@ -71,10 +71,11 @@ d = Detector(aruco_dict=cv.aruco.DICT_4X4_50, aruco_params=None, camera=camera)
 
 mantis_id = 5
 plate_id = 8
+output_id = 7
 
 
 def scan():
-    detected_ids: dict[int, Marker] = {}
+    detected_ids = {}
     for poses in scanning_poses:
         tool_pose = poses["tool_pose"]
         joint_pose = poses["joint_positions"]
@@ -224,12 +225,13 @@ def refine(detected_ids):
         # est now contain x number of samples.
         # compute the mean (as new location) and return std. dev as means of accuracy indicator
         tvecs = np.array(tvecs, dtype=np.float64)
-        mean_position = tvecs[:, :3].mean(axis=0)  
+        # refined_position = tvecs[:, :3].mean(axis=0)  
+        refined_position = np.median(tvecs[:, :3], axis=0)
         rvecs = np.array(rvecs, dtype=np.float64)
-        mean_orientation = rvecs[:, :3].mean(axis=0)  
-        R_maker_in_cam, _ = cv.Rodrigues(mean_orientation)
+        refined_orientation = rvecs[:, :3].mean(axis=0)   #TODO does not make mathematical sense to take the mean of a rotation vector
+        R_maker_in_cam, _ = cv.Rodrigues(refined_orientation)
         
-        marker_in_cam_new = make_homogeneous(R_maker_in_cam, mean_position)
+        marker_in_cam_new = make_homogeneous(R_maker_in_cam, refined_position)
             
         # transform from camera to TCP
         marker_in_tcp = apply_transformation(marker_in_cam_new, H_cam2tcp)
@@ -253,7 +255,7 @@ H_mantis_in_base = detected_ids[mantis_id]["H"]
 print(H_plate_in_base)
 print(H_mantis_in_base)
 # compute correlation
-H_mantis2plate = apply_transformation(H_plate_in_base, np.linalg.inv(H_mantis_in_base))
+H_plate_in_mantis = apply_transformation(H_plate_in_base, np.linalg.inv(H_mantis_in_base))
 
 input("move mantis please :)")
 
@@ -265,7 +267,7 @@ refine(detected_ids)
 
 # now we extract the positions of mantis and compute the position of the plate
 H_mantis_in_base_new = detected_ids[mantis_id]["H"]
-H_plate_in_base_new = H_mantis_in_base_new @ H_mantis2plate
+H_plate_in_base_new = H_mantis_in_base_new @ H_plate_in_mantis
 r, t = extract_pose_and_orientation(H_plate_in_base_new)
 
 # finally, we can align TCP with the plate
@@ -302,6 +304,33 @@ robot.send_script(script=close_gripper, blocking=True)
 joint_positions, tool_pose = robot.read_joint_and_task_space_data()
 final_pose = build_pose([t[0], t[1], t[2] + 0.15], tool_pose[3:6])
 robot.movel(TaskPose(final_pose), a=0.25, blocking=True)
+
+
+# # move to output position
+# H_output_in_base = detected_ids[output_id]["H"]
+# r_out, t_out = extract_pose_and_orientation(H_output_in_base)
+
+# # finally, we can align TCP with the plate
+# final_pose = build_pose([t_out[0], t_out[1], t_out[2] + 0.15], [0, 3.1415, 0])
+# print("final pose", final_pose)
+# robot.movej(TaskPose(final_pose), blocking=True)
+
+# # align of TCP (long side of SBS plate)
+# joint_positions, tool_pose = robot.read_joint_and_task_space_data()
+# R_tcp2base, T_tcp2base = rot_tran_from_tool_pose(tool_pose)
+
+# R_output2base, _ = cv.Rodrigues(r_out)
+# rvec1 = R_tcp2base @ np.array([1,0,0], dtype=np.float64)
+# rvec2 = R_output2base @ np.array([1,0,0], dtype=np.float64)
+# fix_z = np.arccos(np.dot(rvec1, rvec2) / (np.linalg.norm(rvec1) * np.linalg.norm(rvec2)))
+# sgn = np.sign(np.dot(np.cross(rvec1, rvec2), np.array([0, 0, 1], dtype=np.float64)))
+# fix_z *= sgn
+# R_z, _ = cv.Rodrigues(np.array([0,0,fix_z], dtype=np.float64))
+# R_tcp2base = R_z @ R_tcp2base
+# tool_orientation, _ = cv.Rodrigues(R_tcp2base)
+# final_pose = build_pose(T_tcp2base, tool_orientation)
+# robot.movej(TaskPose(final_pose), blocking=True)
+
 
 
 cv.destroyWindow("feed")

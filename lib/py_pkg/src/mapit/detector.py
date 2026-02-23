@@ -2,6 +2,7 @@ import cv2 as cv
 import numpy as np
 from .calib import CalibratedCamera
 from .utils import *
+from typing import Optional
 
 #TODO this should go somewhere else....
 marker_length = 0.036
@@ -46,7 +47,7 @@ class Detector:
         Region of interest returned by ``cv.getOptimalNewCameraMatrix``
         for cropping image frames.
     """
-    def __init__(self, aruco_dict: int, aruco_params: cv.aruco.DetectorParameters, camera: CalibratedCamera):
+    def __init__(self, aruco_dict: int, aruco_params: Optional[cv.aruco.DetectorParameters], camera: CalibratedCamera):
         if aruco_dict:
             self.dictionary = cv.aruco.getPredefinedDictionary(aruco_dict)
         else:

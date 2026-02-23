@@ -4,6 +4,8 @@ from dataclasses import dataclass
 import numpy as np
 import cv2 as cv
 import warnings
+from typing import Callable
+from math import atan2, sqrt, pi
 @dataclass
 class CalibratedCamera:
     """
@@ -27,11 +29,11 @@ class CalibratedCamera:
         Image height in pixels.
     """
     
-    R_cam2tcp: np.array
-    T_cam2tcp: np.array
-    distortion_coefficients: np.array
-    intrinsics: np.array
-    frame_grabber: callable
+    R_cam2tcp: np.ndarray
+    T_cam2tcp: np.ndarray
+    distortion_coefficients: np.ndarray
+    intrinsics: np.ndarray
+    frame_grabber: Callable[[], np.ndarray]
     image_width: int
     image_height: int
     
@@ -61,7 +63,7 @@ class CalibratedCamera:
             raise AssertionError("frame_grabber not callable.")
     
     @classmethod
-    def new_calibration(cls, images, R_gripper2base, t_gripper2base, board: tuple, frame_grapper: callable = None):
+    def new_calibration(cls, images, R_gripper2base, t_gripper2base, board: tuple, frame_grapper: Callable[[], np.ndarray]):
         """
         Perform lens and hand-eye calibration to instantiate a CalibratedCamera instance.
             
@@ -104,10 +106,10 @@ class CalibratedCamera:
         image_points = []
         object_points = []
         
-        reference_image = None
+        reference_image = np.ndarray([])
         
         for index, image in enumerate(images):
-            gray =  cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+            gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
             reference_image = gray
             
             ret, corners = cv.findChessboardCorners(image=gray, patternSize=chessboard_pattern)
@@ -135,13 +137,42 @@ class CalibratedCamera:
             t_gripper2base=t_gripper2base,
             R_target2cam=R_target2cam,
             t_target2cam=t_target2cam,
-            method=cv.CALIB_HAND_EYE_TSAI)
+            method=cv.CALIB_HAND_EYE_PARK)
+        
+        # compute reprojection error
+        total_error = 0.0
+        total_points = 0
+
+        for i in range(len(object_points)):
+            imgpoints2, _ = cv.projectPoints(
+                object_points[i],
+                R_target2cam[i],
+                t_target2cam[i],
+                camera_matrix,
+                distortion_coefficients
+            )
+
+            error = cv.norm(image_points[i], imgpoints2, cv.NORM_L2)
+            total_error += error**2
+            total_points += len(object_points[i])
+
+        reproj_error = np.sqrt(total_error / total_points)
+
+        print(f"[Camera Calibration] RMS reprojection error: {reproj_error:.3f} px")
+        
+        roll = atan2(R_cam2gripper[2][1], R_cam2gripper[2][2])
+        pitch = atan2(-R_cam2gripper[2][0], sqrt(pow(R_cam2gripper[0][0], 2) + pow(R_cam2gripper[1][0],2)))
+        yaw = atan2(R_cam2gripper[1][0], R_cam2gripper[0][0])
+        print("roll (rotation around x axis)  rad:", roll, "deg:", (180.0 * roll) / pi)
+        print("pitch (rotation around y axis)  rad:", pitch, "deg:", (180.0 * pitch) / pi)
+        print("yaw (rotation around z axis)  rad:", yaw, "deg:", (180.0 * yaw) / pi)
+    
         
         (h,w) = reference_image.shape
         return cls(R_cam2gripper, t_cam2gripper, distortion_coefficients, camera_matrix, frame_grapper, w, h)
     
     @classmethod
-    def new_from_config(cls, path: str, frame_grapper: callable):
+    def new_from_config(cls, path: str, frame_grapper: Callable[[], np.ndarray]):
         """
         Constructor to create instance from YAML config.
         
@@ -192,7 +223,7 @@ class CalibratedCamera:
         
         return
     
-    def set_frame_grabber(self, callback: callable):
+    def set_frame_grabber(self, callback: Callable[[], np.ndarray]):
         """Set the frame_grabber of a `CalibratedCamera` instance.
         
         Parameters
