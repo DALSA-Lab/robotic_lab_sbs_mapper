@@ -1,18 +1,17 @@
-"""
-Data model definitions used throughout the toolbox.
+"""Data model definitions used throughout the toolbox.
 
 This module currently defines the ``Marker`` class, which represents
 a 3D marker described by a homogeneous transformation matrix.
 """
 
 from dataclasses import dataclass
+
 import numpy as np
 
 
 @dataclass
 class Marker:
-    """
-    Represents a 3D marker with pose information.
+    """Represents a 3D marker with pose information.
 
     A marker is defined by a unique identifier and a 4x4 homogeneous
     transformation matrix encoding its position and orientation in space.
@@ -39,6 +38,7 @@ class Marker:
 
     - ``H[:3, :3]`` contains the 3x3 rotation matrix.
     - ``H[:3, 3]`` contains the 3D translation vector.
+
     """
 
     id: int
@@ -46,18 +46,16 @@ class Marker:
 
     @property
     def position(self) -> np.ndarray:
-        """
-        numpy.ndarray
-            The 3D position vector extracted from the transformation
-            matrix (shape: (3,)).
+        """numpy.ndarray
+        The 3D position vector extracted from the transformation
+        matrix (shape: (3,)).
         """
         return self.H[:3, 3]
 
     @property
     def orientation(self) -> np.ndarray:
-        """
-        numpy.ndarray
-            The 3x3 rotation matrix extracted from the transformation
-            matrix (shape: (3, 3)).
+        """numpy.ndarray
+        The 3x3 rotation matrix extracted from the transformation
+        matrix (shape: (3, 3)).
         """
         return self.H[:3, :3]
