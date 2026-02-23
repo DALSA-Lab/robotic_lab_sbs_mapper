@@ -6,4 +6,4 @@ This section covers a handful for example applications of the toolbox. Some exam
    :numbered: 1
    :caption: Examples:
 
-   example_1.md
+   calibration/example_1.md

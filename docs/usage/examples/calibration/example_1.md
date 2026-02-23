@@ -84,11 +84,20 @@ square_size_m = 0.03 # 30mm square side length
 board = (board_height, board_width, square_size_m)
 ```
 
+A callable frame grabber must be created. For this example, we'll use the USB device with ID=0 as a `cv2.VideoCapture` device.
+```python
+cam = cv2.VideoCapture(0)
+def grab_frame(cam):
+    _, frame = cam.read()
+    img = np.asanyarray(frame.get_data())
+    return img
+
+```
+
 Finally, a new `CalibratedCamera` object can be obtained by performing a new calibration.
 ```python
 # create new CalibratedCamera object
-camera = CalibratedCamera()
-camera.new_calibration(images, R_gripper2base, t_gripper2base, board)
+camera = CalibratedCamera().new_calibration(images, R_gripper2base, t_gripper2base, board, grab_frame(cam))
 ```
 
 
@@ -98,8 +107,11 @@ To create a new object from a previously calibrated instance, use the `new_from_
 # imports
 from mapit import CalibratedCamera
 
+# assumes a frame grabber function is defined
+# def grab_frame()
+
 # create new CalibratedCamera object
-camera = CalibratedCamera.new_from_config("calibrated_camera.yml", None)
+camera = CalibratedCamera.new_from_config("calibrated_camera.yml", grab_frame())
 
 # to export a CalibratedCamera object, use the export_to_config function
 camera.export_to_config("calibrated_camera2.yml")
