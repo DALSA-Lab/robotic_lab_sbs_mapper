@@ -1,14 +1,14 @@
 # C++ Tools
 
 The available tools are:
-- Detect Markers
-- Calibrate Hand-eye
-- Capture Images
-- Compute Poses
-- Compute Poses (all options)
+- [Detect Markers](./detect_markers/README.md)
+- [Calibrate Hand-eye](./calib_hand_eye/README.md)
+- [Capture Images](./capture_images/README.md)
+- [Compute Poses](./compute_pose/README.md)
+- [Compute Poses (all options)](./compute_pose_all_options/README.md)
 
 # How to build
-Build is done using CMake. A global CMAKE file exists, from which it is possible to build all tools:
+Build is done using CMake. A global CMake file exists, from which it is possible to build all tools:
 ```bash
 cmake --build build
 ```

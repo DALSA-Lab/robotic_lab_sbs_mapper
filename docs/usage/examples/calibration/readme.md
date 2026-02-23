@@ -1,4 +1,4 @@
-# Example: Instantiating a CalibratedCamera
+# Example: Instantiating a `CalibratedCamera`
 
 This example demonstrates how to instantiate a `CalibratedCamera` object. 
 
