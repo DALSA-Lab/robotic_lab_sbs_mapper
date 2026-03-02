@@ -1,17 +1,17 @@
 [project]
-name = "py-pkg"
+name = "mapit"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "Alan Mansour",email = "alama@dtu.com"}
+    {name = "Jesper Thøgersen",email = "s203841@dtu.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 dependencies = [
 ]
 
 [tool.poetry]
-packages = [{include = "py_pkg", from = "src"}]
+packages = [{include = "mapit", from = "src"}]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
@@ -21,4 +21,4 @@ build-backend = "poetry.core.masonry.api"
 line-length = 88
 lint.select = ["E", "F", "I", "B", "D"]  # E: pycodestyle, F: pyflakes, I: isort, B: flake8-bugbear, D: pydocstyle rules
 lint.ignore = ["E501", "D100", "D104"]
-target-version = "py312"
+target-version = "py310"

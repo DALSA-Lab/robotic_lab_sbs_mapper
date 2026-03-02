@@ -1,16 +1,27 @@
-Dummy Python Package
-====================
+Camera Calibration
+------------------
 
-Math Utilities
---------------
-
-.. automodule:: py_pkg.math_utils
+.. automodule:: mapit.calib
    :members:
    :show-inheritance:
 
-String Utilities
-----------------
+ArUco Detector
+------------------
 
-.. automodule:: py_pkg.string_utils
+.. automodule:: mapit.detector
+   :members:
+   :show-inheritance:
+
+Utilities
+---------
+
+.. automodule:: mapit.utils
+   :members:
+   :show-inheritance:
+
+Models
+------
+
+.. automodule:: mapit.models
    :members:
    :show-inheritance:

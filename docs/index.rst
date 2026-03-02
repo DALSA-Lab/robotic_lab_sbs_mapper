@@ -1,28 +1,39 @@
-Welcome to  **My Project**
-==========================
+Robitic SBS Plate Mapper
+========================
+
+Welcome to the documentation for the Robotic SBS Plate Mapper; a toolbox for enabling localisation of SBS/SLAS microplates in a modular environment.
+Developed at **DTU's Arena for Life Science Automation (DALSA)** [1]_, the project aim to bridge the gap between hardware, software and lab integration.
+
+
+Background
+----------
+Originally developed as a direct extension of the modular DALSA table, the toolbox aim to help define the spatial layout of a dynamic workspace.
+For a modular laboratry it is insufficient to rely on hardcoded microplate locations.
+The localisation is based on ArUco markers due to their wide adoption and low computational complexity, yet still providing great accuracy.
+
+A video demonstration is available on `YouTube <https://youtu.be/6rvSUFQEVYE>`, showing the accuracy and robustness of the toolbox. 
+
+
+Features
+--------
+- Camera calibration module
+- ArUco marker detection
+
 
 Overview
 --------
-
-.. note::
-    *A project overview should briefly describe the scope, purpose, and goals of the project. It helps users quickly understand what the project is about and why it exists. 
-    When writing an overview, mention the main problem the project solves, its target audience, and any unique features or technologies it uses.*
-
-    ***Example:***
-
-        *This project provides a stadaridized template for DALSA GitHub repositories, designed to help project owners quickly set up new projects with a consistent structure and DevOps features.
-        Its goal is to ensure maintainability and collaboration by enforcing standards that make future contributions and usage seamless. The template integrates Sphinx + Doxygen for unified
-        documentation of both Python and C++ packages, and uses GitHub Actions to automate generation of web-based documentation, code analyis (linting), code rewrites to follow a 
-        consistent style (formatting), and execution of tests.*
-
-Here you will find a full description of the project's architecture and core concepts, detailed documentation of all packages, and practical usage examples. 
-This guide is designed to help you understand the structure and functionality of the project, making it easier to get started and make effective use of its features.
-
+The software is written in **Python**, built on the **Open Source Computer Vision Library (OpenCV)** [2]_, to provide a toolbox with the required modules to perform camera calibration, hand-eye calibration and ArUco marker detection. A collection of C++ tools are provided as supplementary tools.
+Here, you'll find an overview of the submodules and their source-code documentation, supplementary tools, working examples with demo vidoes and notes on integration.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    architecture/index.rst
-   code/index.rst
    usage/examples/index.rst
+   integration/index.rst
+   code/index.rst
+
+
+.. [1] Official DALSA website: https://dalsa.dtu.dk
+.. [2] OpenCV Org website: https://opencv.org

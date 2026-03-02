@@ -32,11 +32,20 @@ jobs:
         run: doxygen Doxyfile
       - name: Find C++ Packages, and then Format and Lint
         run: |
-          for pkg in $(find . -name CMakeLists.txt -exec dirname {} \;); do
+          for pkg in $(find . -name CMakeLists.txt \
+                        -not -path "./lib/cpp_tools/*" \
+                        -exec dirname {} \;); do
             echo "Processing C++ package in $pkg"
-            clang-format -i $(find "$pkg" -name '*.cpp' -o -name '*.hpp')
+
+            # Format (excluding lib/cpp_tools)
+            find "$pkg" -type f \( -name '*.cpp' -o -name '*.hpp' \) \
+              -not -path "./lib/cpp_tools/*" \
+              -print0 | xargs -0 clang-format -i
+
+            # Configure + clang-tidy
             cmake -S "$pkg" -B "$pkg/build" \
               -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
               -DCMAKE_CXX_CLANG_TIDY="clang-tidy;-header-filter=.;-checks=*"
+
             cmake --build "$pkg/build" -j"$(nproc)"
           done
