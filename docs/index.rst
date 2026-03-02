@@ -11,6 +11,13 @@ Originally developed as a direct extension of the modular DALSA table, the toolb
 For a modular laboratry it is insufficient to rely on hardcoded microplate locations.
 The localisation is based on ArUco markers due to their wide adoption and low computational complexity, yet still providing great accuracy.
 
+A video demonstration is available on `YouTube <https://youtu.be/6rvSUFQEVYE>`, showing the accuracy and robustness of the toolbox. 
+
+
+Features
+--------
+- Camera calibration module
+- ArUco marker detection
 
 
 Overview
