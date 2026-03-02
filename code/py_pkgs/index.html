@@ -6,21 +6,21 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Python Packages Documentation &mdash; My Project  documentation</title>
+  <title>Python Package &mdash; Robotic SBS Plate Mapper  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Dummy Python Package" href="py_pkg.html" />
-    <link rel="prev" title="Documentation" href="../index.html" /> 
+    <link rel="next" title="Camera Calibration" href="py_pkg.html" />
+    <link rel="prev" title="Source Code Documentation" href="../index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +32,7 @@
           
           
           <a href="../../index.html" class="icon icon-home">
-            My Project
+            Robotic SBS Plate Mapper
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -45,15 +45,19 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../architecture/index.html">Architecture</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Documentation</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Python Packages Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="py_pkg.html">Dummy Python Package</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../cpp_pkgs/index.html">C++ Packages Documentation</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="../../usage/examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../integration/index.html">Integration Notes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Source Code Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Python Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="py_pkg.html">Camera Calibration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_pkg.html#module-mapit.detector">ArUco Detector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_pkg.html#module-mapit.utils">Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_pkg.html#module-mapit.models">Models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_tools/index.html">C++ Tools</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -62,7 +66,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">My Project</a>
+          <a href="../../index.html">Robotic SBS Plate Mapper</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -70,8 +74,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Documentation</a></li>
-      <li class="breadcrumb-item active">Python Packages Documentation</li>
+          <li class="breadcrumb-item"><a href="../index.html">Source Code Documentation</a></li>
+      <li class="breadcrumb-item active">Python Package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/code/py_pkgs/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -81,14 +85,33 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="python-packages-documentation">
-<h1>Python Packages Documentation<a class="headerlink" href="#python-packages-documentation" title="Link to this heading"></a></h1>
+  <section id="python-package">
+<h1>Python Package<a class="headerlink" href="#python-package" title="Link to this heading"></a></h1>
+<p>The python package is made up of three</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="py_pkg.html">Dummy Python Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="py_pkg.html#module-py_pkg.math_utils">Math Utilities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="py_pkg.html#module-py_pkg.string_utils">String Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="py_pkg.html">Camera Calibration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="py_pkg.html#mapit.calib.CalibratedCamera"><code class="docutils literal notranslate"><span class="pre">CalibratedCamera</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="py_pkg.html#module-mapit.detector">ArUco Detector</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="py_pkg.html#mapit.detector.Detector"><code class="docutils literal notranslate"><span class="pre">Detector</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="py_pkg.html#module-mapit.utils">Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="py_pkg.html#mapit.utils.apply_rotation_and_translation"><code class="docutils literal notranslate"><span class="pre">apply_rotation_and_translation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="py_pkg.html#mapit.utils.apply_transformation"><code class="docutils literal notranslate"><span class="pre">apply_transformation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="py_pkg.html#mapit.utils.axis_angle_align"><code class="docutils literal notranslate"><span class="pre">axis_angle_align()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="py_pkg.html#mapit.utils.build_pose"><code class="docutils literal notranslate"><span class="pre">build_pose()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="py_pkg.html#mapit.utils.extract_pose_and_orientation"><code class="docutils literal notranslate"><span class="pre">extract_pose_and_orientation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="py_pkg.html#mapit.utils.look_at"><code class="docutils literal notranslate"><span class="pre">look_at()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="py_pkg.html#mapit.utils.make_homogeneous"><code class="docutils literal notranslate"><span class="pre">make_homogeneous()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="py_pkg.html#mapit.utils.rot_tran_from_tool_pose"><code class="docutils literal notranslate"><span class="pre">rot_tran_from_tool_pose()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="py_pkg.html#module-mapit.models">Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="py_pkg.html#mapit.models.Marker"><code class="docutils literal notranslate"><span class="pre">Marker</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -99,14 +122,14 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../index.html" class="btn btn-neutral float-left" title="Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="py_pkg.html" class="btn btn-neutral float-right" title="Dummy Python Package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../index.html" class="btn btn-neutral float-left" title="Source Code Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="py_pkg.html" class="btn btn-neutral float-right" title="Camera Calibration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Alan Mansour, DALSA.</p>
+    <p>&#169; Copyright 2026, Jesper Thøgersen, DALSA.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

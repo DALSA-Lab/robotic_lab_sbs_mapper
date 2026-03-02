@@ -1,0 +1,273 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. Example: Instantiating a CalibratedCamera &mdash; Robotic SBS Plate Mapper  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="2. Dynamic Plate Detection and Localisation" href="../plate_detection/readme.html" />
+    <link rel="prev" title="Examples" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Robotic SBS Plate Mapper
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture/index.html">Architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1. Example: Instantiating a <code class="docutils literal notranslate"><span class="pre">CalibratedCamera</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#perform-a-calibration">Perform a calibration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#load-a-calibration-from-file">Load a calibration from file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#manual-instantiation">Manual instantiation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../plate_detection/readme.html">2. Dynamic Plate Detection and Localisation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../integration/index.html">Integration Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../code/index.html">Source Code Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Robotic SBS Plate Mapper</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1. </span>Example: Instantiating a <code class="docutils literal notranslate"><span class="pre">CalibratedCamera</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/usage/examples/calibration/readme.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="example-instantiating-a-calibratedcamera">
+<h1><span class="section-number">1. </span>Example: Instantiating a <code class="docutils literal notranslate"><span class="pre">CalibratedCamera</span></code><a class="headerlink" href="#example-instantiating-a-calibratedcamera" title="Link to this heading"></a></h1>
+<p>This example demonstrates how to instantiate a <code class="docutils literal notranslate"><span class="pre">CalibratedCamera</span></code> object.</p>
+<p>Three methods for creating a new <code class="docutils literal notranslate"><span class="pre">CalibratedCamera</span></code> object exist. Each method is covered in its own section below.</p>
+<section id="perform-a-calibration">
+<h2>Perform a calibration<a class="headerlink" href="#perform-a-calibration" title="Link to this heading"></a></h2>
+<p>To perform a calibration, a handful of prerequisites must be met, namely:</p>
+<ol class="arabic simple">
+<li><p>A list of robot poses (X, Y, Z) and rotation matrix must be provided</p></li>
+<li><p>Collection of images, one for each pose, must be provided</p></li>
+<li><p>Meassured calibration chessboard dimensions</p></li>
+</ol>
+<p>The list of robot poses and collection of images must follow the same order. To ensure the correct ordering, it is advised to name the images during image capture to follow the robot pose index.</p>
+<p>The chessboard dimensions include the physical size of a single square in millimeters, and the number of inner corners column and row wise.</p>
+<p>For this example, the robot poses are stored in an array following the structure from the <a class="reference external" href="https://github.com/DALSA-Lab/ur_commander">ur_commander</a> <code class="docutils literal notranslate"><span class="pre">TaskPose</span></code>. Each TaskPose is made up of an XYZ coordinate and RxRyRz rotation vector (axis-angle). The rotation vectors must be converted to rotation matrixes before calibration.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># imports</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">glob</span> <span class="c1"># needed to load images</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span> <span class="c1"># regular expression import needed to sort images</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mapit</span><span class="w"> </span><span class="kn">import</span> <span class="n">CalibratedCamera</span>
+
+<span class="c1"># list of robot poses</span>
+<span class="n">poses</span> <span class="o">=</span> <span class="p">[{</span>
+        <span class="s2">&quot;tool_pose&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="o">-</span><span class="mf">0.2918351813985059</span><span class="p">,</span>
+            <span class="o">-</span><span class="mf">0.20152920835988364</span><span class="p">,</span>
+            <span class="mf">0.12129173093816012</span><span class="p">,</span>
+            <span class="mf">0.06401085239746532</span><span class="p">,</span>
+            <span class="o">-</span><span class="mf">3.0377776858357786</span><span class="p">,</span>
+            <span class="mf">0.6808930384830819</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="o">...</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;tool_pose&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="o">-</span><span class="mf">0.2194709077852959</span><span class="p">,</span>
+            <span class="o">-</span><span class="mf">0.08776464280537256</span><span class="p">,</span>
+            <span class="mf">0.06281433261243191</span><span class="p">,</span>
+            <span class="mf">2.215524035649932</span><span class="p">,</span>
+            <span class="o">-</span><span class="mf">2.0041022662691965</span><span class="p">,</span>
+            <span class="mf">0.38228743199893733</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+<span class="c1"># arrays to store rotation matrixes and translation vectors</span>
+<span class="n">R_gripper2base</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">t_gripper2base</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">pose</span> <span class="ow">in</span> <span class="n">poses</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">pose</span><span class="p">[</span><span class="s2">&quot;tool_pose&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tool_pose</span> <span class="o">=</span> <span class="n">pose</span><span class="p">[</span><span class="s2">&quot;tool_pose&quot;</span><span class="p">]</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">tool_pose</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="c1"># extract xyz</span>
+        <span class="n">rx</span><span class="p">,</span> <span class="n">ry</span><span class="p">,</span> <span class="n">rz</span> <span class="o">=</span> <span class="n">tool_pose</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="c1"># extract RxRyRz</span>
+
+        <span class="n">rvec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">rx</span><span class="p">,</span><span class="n">ry</span><span class="p">,</span><span class="n">rz</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span> <span class="c1"># store RxRyRz as vector</span>
+
+        <span class="n">R</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">Rodrigues</span><span class="p">(</span><span class="n">rvec</span><span class="p">)</span> <span class="c1"># using Rodrigues formula, convert from rotation vector to matrix</span>
+
+        <span class="n">R_gripper2base</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+        <span class="n">t_gripper2base</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Next, the images of the calibration board are loaded. The filenames follow the convention of <code class="docutils literal notranslate"><span class="pre">image_waypointXXX.jpg</span></code> with XXX representing the pose index.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># load images from folder</span>
+<span class="n">source_folder</span> <span class="o">=</span> <span class="s2">&quot;/home/jesper/Pictures/&quot;</span> 
+<span class="c1"># select all files matching the .jpg extension</span>
+<span class="n">images_loc</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">source_folder</span> <span class="o">+</span> <span class="s2">&quot;*.jpg&quot;</span><span class="p">)</span>
+<span class="c1"># sort images based on their filename</span>
+<span class="n">images_loc</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">images_loc</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\d+&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+<span class="n">images</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">images_loc</span><span class="p">:</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="n">images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The last step before calibration is defining the dimensions of the calibration board. This is done by counting the internal corners, and by meassuring the side length of a single square, reported in meters.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">board_height</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">board_width</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">square_size_m</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="c1"># 30mm square side length </span>
+<span class="n">board</span> <span class="o">=</span> <span class="p">(</span><span class="n">board_height</span><span class="p">,</span> <span class="n">board_width</span><span class="p">,</span> <span class="n">square_size_m</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A callable frame grabber must be created. For this example, we’ll use the USB device with ID=0 as a <code class="docutils literal notranslate"><span class="pre">cv2.VideoCapture</span></code> device.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cam</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">grab_frame</span><span class="p">(</span><span class="n">cam</span><span class="p">):</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">cam</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">get_data</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">img</span>
+
+</pre></div>
+</div>
+<p>Finally, a new <code class="docutils literal notranslate"><span class="pre">CalibratedCamera</span></code> object can be obtained by performing a new calibration.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># create new CalibratedCamera object</span>
+<span class="n">camera</span> <span class="o">=</span> <span class="n">CalibratedCamera</span><span class="p">()</span><span class="o">.</span><span class="n">new_calibration</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">R_gripper2base</span><span class="p">,</span> <span class="n">t_gripper2base</span><span class="p">,</span> <span class="n">board</span><span class="p">,</span> <span class="n">grab_frame</span><span class="p">(</span><span class="n">cam</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="load-a-calibration-from-file">
+<h2>Load a calibration from file<a class="headerlink" href="#load-a-calibration-from-file" title="Link to this heading"></a></h2>
+<p>To create a new object from a previously calibrated instance, use the <code class="docutils literal notranslate"><span class="pre">new_from_config</span></code> function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mapit</span><span class="w"> </span><span class="kn">import</span> <span class="n">CalibratedCamera</span>
+
+<span class="c1"># assumes a frame grabber function is defined</span>
+<span class="c1"># def grab_frame()</span>
+
+<span class="c1"># create new CalibratedCamera object</span>
+<span class="n">camera</span> <span class="o">=</span> <span class="n">CalibratedCamera</span><span class="o">.</span><span class="n">new_from_config</span><span class="p">(</span><span class="s2">&quot;calibrated_camera.yml&quot;</span><span class="p">,</span> <span class="n">grab_frame</span><span class="p">())</span>
+
+<span class="c1"># to export a CalibratedCamera object, use the export_to_config function</span>
+<span class="n">camera</span><span class="o">.</span><span class="n">export_to_config</span><span class="p">(</span><span class="s2">&quot;calibrated_camera2.yml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="manual-instantiation">
+<h2>Manual instantiation<a class="headerlink" href="#manual-instantiation" title="Link to this heading"></a></h2>
+<p>To manually instantiate a CalibratedCamera object, camera parameters must be provided. These may be obtained from other calibration tools, such as the provided C++ Calibrate Hand-eye tool.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mapit</span><span class="w"> </span><span class="kn">import</span> <span class="n">CalibratedCamera</span>
+
+<span class="n">R_cam2tcp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="mf">0.7031712873773839</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7108982951179903</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.01318160105478331</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.7110113851610904</span><span class="p">,</span> <span class="mf">0.7029476017317904</span><span class="p">,</span> <span class="mf">0.01809639165225672</span><span class="p">],</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">0.003598719124931573</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.02209713143960507</span><span class="p">,</span> <span class="mf">0.9997493515890874</span><span class="p">]</span>
+<span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+<span class="n">T_cam2tcp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="p">[</span><span class="mf">0.01239759056065678</span><span class="p">,</span>
+ <span class="o">-</span><span class="mf">0.0570573497099558</span><span class="p">,</span>
+ <span class="mf">0.01802776294011691</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span>
+<span class="p">)</span>
+<span class="n">camera_intrinsics</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span> <span class="mf">1364.83618164062</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">971.963623046875</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1364.55151367188</span><span class="p">,</span> <span class="mf">575.387329101562</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+<span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+<span class="n">distortion_coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>
+<span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+
+<span class="n">camera</span> <span class="o">=</span> <span class="n">CalibratedCamera</span><span class="p">(</span>
+    <span class="n">R_cam2tcp</span><span class="o">=</span><span class="n">R_cam2tcp</span><span class="p">,</span>
+    <span class="n">T_cam2tcp</span><span class="o">=</span><span class="n">T_cam2tcp</span><span class="p">,</span>
+    <span class="n">distortion_coefficients</span><span class="o">=</span><span class="n">distortion_coefficients</span><span class="p">,</span>
+    <span class="n">intrinsics</span><span class="o">=</span><span class="n">camera_intrinsics</span><span class="p">,</span>
+    <span class="n">frame_grapper</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">image_height</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span>  <span class="c1"># pixels</span>
+    <span class="n">image_width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span>   <span class="c1"># pixels</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../plate_detection/readme.html" class="btn btn-neutral float-right" title="2. Dynamic Plate Detection and Localisation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Jesper Thøgersen, DALSA.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

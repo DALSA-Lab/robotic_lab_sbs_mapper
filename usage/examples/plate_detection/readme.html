@@ -1,0 +1,469 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2. Dynamic Plate Detection and Localisation &mdash; Robotic SBS Plate Mapper  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Integration Notes" href="../../../integration/index.html" />
+    <link rel="prev" title="1. Example: Instantiating a CalibratedCamera" href="../calibration/readme.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Robotic SBS Plate Mapper
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture/index.html">Architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../calibration/readme.html">1. Example: Instantiating a <code class="docutils literal notranslate"><span class="pre">CalibratedCamera</span></code></a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2. Dynamic Plate Detection and Localisation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#physical-setup">Physical Setup</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#robot-and-camera">1. Robot and Camera</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#marked-objects">2. Marked Objects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scanning-poses">3. Scanning Poses</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#initialisation">Initialisation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#realsense-camera">1. RealSense Camera</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#loading-a-calibratedcamera-config">2. Loading a <code class="docutils literal notranslate"><span class="pre">CalibratedCamera</span></code> config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#robot-interface">3. Robot Interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aruco-detector">4. ArUco Detector</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#performing-a-scan">Performing a Scan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#moving-to-predefined-scanning-poses">1. Moving to Predefined Scanning Poses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#detecting-aruco-markers">2. Detecting ArUco Markers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#estimating-marker-pose-in-the-camera-frame">3. Estimating Marker Pose in the Camera Frame</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transforming-to-the-robot-base-frame">4. Transforming to the Robot Base Frame</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#storing-the-detected-objects">5. Storing the Detected Objects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scan-result">Scan Result</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#computing-spatial-relationships">Computing Spatial Relationships</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#active-visual-refinement">Active Visual Refinement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#computing-platemantis-relationship">Computing Plate–Mantis Relationship</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#re-discovery-and-re-construction-of-spatial-layout">Re-discovery and Re-construction of Spatial Layout</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#step-1-perform-a-new-scan">Step 1: Perform a New Scan</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-2-reconstruct-plate-pose">Step 2: Reconstruct Plate Pose</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plate-alignment-and-pick">Plate Alignment and Pick</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../integration/index.html">Integration Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../code/index.html">Source Code Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Robotic SBS Plate Mapper</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">2. </span>Dynamic Plate Detection and Localisation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/usage/examples/plate_detection/readme.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dynamic-plate-detection-and-localisation">
+<h1><span class="section-number">2. </span>Dynamic Plate Detection and Localisation<a class="headerlink" href="#dynamic-plate-detection-and-localisation" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>This example demonstrates how to dynamically detect, localise, and retrieve an SBS plate in a changing laboratory environment using ArUco markers and a calibrated eye-in-hand camera setup.</p>
+<p>The key idea is to:</p>
+<ol class="arabic simple">
+<li><p>Perform an initial scan of the workspace from multiple robot poses.</p></li>
+<li><p>Detect ArUco markers attached to lab objects (e.g. a Mantis device and an SBS plate).</p></li>
+<li><p>Estimate each marker pose in the robot base frame.</p></li>
+<li><p>Refine these poses through active visual alignment.</p></li>
+<li><p>Compute spatial relationships between objects (e.g. plate relative to Mantis).</p></li>
+<li><p>Re-scan after the environment changes.</p></li>
+<li><p>Reconstruct the missing plate pose from known spatial relationships.</p></li>
+<li><p>Execute a pick operation using the reconstructed pose.</p></li>
+</ol>
+<p>This workflow enables robust re-localisation of objects even when only a subset of markers is visible during a later scan.</p>
+<p>The example uses:</p>
+<ul class="simple">
+<li><p>A calibrated RGB camera (Intel RealSense).</p></li>
+<li><p>A UR robot controlled via ur_commander.</p></li>
+<li><p>The mapit package for camera calibration, ArUco detection, pose estimation, and frame transformations.</p></li>
+</ul>
+<p>A video demonstration is available on <a class="reference external" href="https://youtu.be/aCD06wiFVYI">YouTube</a>.</p>
+</section>
+<section id="physical-setup">
+<h2>Physical Setup<a class="headerlink" href="#physical-setup" title="Link to this heading"></a></h2>
+<p>Before running this example, ensure that the following hardware and configuration steps are completed.</p>
+<section id="robot-and-camera">
+<h3>1. Robot and Camera<a class="headerlink" href="#robot-and-camera" title="Link to this heading"></a></h3>
+<p>The system uses a UR robot equipped with a TCP-mounted RGB camera in an eye-in-hand configuration.</p>
+<p>The following prerequisites must be satisfied:</p>
+<ul class="simple">
+<li><p>A valid hand–eye calibration stored in <code class="docutils literal notranslate"><span class="pre">calibrated_camera.yml</span></code>.</p></li>
+<li><p>A known rigid transformation between the camera and the TCP, defined by <code class="docutils literal notranslate"><span class="pre">R_cam2tcp</span></code> and <code class="docutils literal notranslate"><span class="pre">T_cam2tcp</span></code>.</p></li>
+</ul>
+<p>These parameters allow detected marker poses to be expressed consistently in the robot base frame.</p>
+</section>
+<section id="marked-objects">
+<h3>2. Marked Objects<a class="headerlink" href="#marked-objects" title="Link to this heading"></a></h3>
+<p>All relevant objects in the workspace must carry an ArUco marker.</p>
+<p>In this example, the following marker IDs are used:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mantis_id</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">plate_id</span> <span class="o">=</span> <span class="mi">8</span>
+</pre></div>
+</div>
+<p>Markers must be generated from the same dictionary used by the detector.<br />
+Here, the <code class="docutils literal notranslate"><span class="pre">cv.aruco.DICT_4X4_50</span></code> dictionary is used.</p>
+</section>
+<section id="scanning-poses">
+<h3>3. Scanning Poses<a class="headerlink" href="#scanning-poses" title="Link to this heading"></a></h3>
+<p>A set of predefined joint configurations (<code class="docutils literal notranslate"><span class="pre">scanning_poses</span></code>) must be provided.</p>
+<p>These poses should:</p>
+<ul class="simple">
+<li><p>Cover the relevant workspace area.</p></li>
+<li><p>Ensure marker visibility from multiple viewpoints.</p></li>
+<li><p>Minimise occlusions.</p></li>
+<li><p>Maintain safe robot motion.</p></li>
+</ul>
+<p>Careful selection of scanning poses improves robustness and pose estimation accuracy.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="initialisation">
+<h2>Initialisation<a class="headerlink" href="#initialisation" title="Link to this heading"></a></h2>
+<p>The system initialises the perception and robot-control pipeline in several steps.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># imports</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyrealsense2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">rs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ur_commander</span><span class="w"> </span><span class="kn">import</span> <span class="n">CustomURRobot</span><span class="p">,</span> <span class="n">JointPositions</span><span class="p">,</span> <span class="n">TaskPose</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">mapit</span><span class="w"> </span><span class="kn">import</span> <span class="n">CalibratedCamera</span><span class="p">,</span> <span class="n">Detector</span><span class="p">,</span> <span class="n">Marker</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mapit.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">apply_transformation</span><span class="p">,</span>
+    <span class="n">build_pose</span><span class="p">,</span>
+    <span class="n">extract_pose_and_orientation</span><span class="p">,</span>
+    <span class="n">make_homogeneous</span><span class="p">,</span>
+    <span class="n">rot_tran_from_tool_pose</span><span class="p">,</span>
+<span class="p">)</span>
+
+</pre></div>
+</div>
+<section id="realsense-camera">
+<h3>1. RealSense Camera<a class="headerlink" href="#realsense-camera" title="Link to this heading"></a></h3>
+<p>A color stream from the RealSense camera is started and warmed up with the following configuration:</p>
+<ul class="simple">
+<li><p>Resolution: <strong>1920 × 1080</strong></p></li>
+<li><p>Format: <strong>BGR8</strong></p></li>
+<li><p>Frame rate: <strong>30 FPS</strong></p></li>
+</ul>
+<p>A frame grabber function is then registered with <code class="docutils literal notranslate"><span class="pre">CalibratedCamera</span></code>, enabling the detector to retrieve live images directly from the camera stream.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># init realsense camera</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">pipeline</span><span class="p">()</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">config</span><span class="p">()</span>
+<span class="n">config</span><span class="o">.</span><span class="n">enable_stream</span><span class="p">(</span><span class="n">rs</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> <span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">,</span> <span class="n">rs</span><span class="o">.</span><span class="n">format</span><span class="o">.</span><span class="n">bgr8</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">profile</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="c1"># Warm up</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">):</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">()</span>
+
+
+<span class="c1"># define function for grabbing a frame.</span>
+<span class="c1"># if window is specified, show the grabbed frame</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_realsense_frame</span><span class="p">(</span><span class="n">pipeline</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">rawframes</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">()</span>
+    <span class="n">raw_color_frame</span> <span class="o">=</span> <span class="n">rawframes</span><span class="o">.</span><span class="n">get_color_frame</span><span class="p">()</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">raw_color_frame</span><span class="o">.</span><span class="n">get_data</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">window</span><span class="p">:</span>
+        <span class="n">cv</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+        <span class="n">cv</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># non-zero wait to allow image render</span>
+    <span class="k">return</span> <span class="n">img</span>
+
+
+<span class="n">CV_NAMED_WINDOW</span> <span class="o">=</span> <span class="s2">&quot;feed&quot;</span>
+<span class="n">cv</span><span class="o">.</span><span class="n">namedWindow</span><span class="p">(</span><span class="n">CV_NAMED_WINDOW</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A <code class="docutils literal notranslate"><span class="pre">namedWindow</span></code> is specified to be able to follow the video feed.</p>
+</section>
+<section id="loading-a-calibratedcamera-config">
+<h3>2. Loading a <code class="docutils literal notranslate"><span class="pre">CalibratedCamera</span></code> config<a class="headerlink" href="#loading-a-calibratedcamera-config" title="Link to this heading"></a></h3>
+</section>
+<section id="robot-interface">
+<h3>3. Robot Interface<a class="headerlink" href="#robot-interface" title="Link to this heading"></a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">CustomURRobot</span></code> instance is created to communicate with the UR robot controller.</p>
+<p>During initialisation:</p>
+<ul class="simple">
+<li><p>URScript programs for opening and closing the gripper are loaded.</p></li>
+<li><p>The gripper is opened to ensure a safe starting configuration before scanning begins.</p></li>
+</ul>
+</section>
+<section id="aruco-detector">
+<h3>4. ArUco Detector<a class="headerlink" href="#aruco-detector" title="Link to this heading"></a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">Detector</span></code> instance is created using:</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">DICT_4X4_50</span></code> ArUco dictionary.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">CalibratedCamera</span></code> instance loaded above.</p></li>
+<li><p>Built-in pose estimation utilities.</p></li>
+</ul>
+<p>This detector is responsible for identifying markers in each frame and estimating their 6D pose relative to the camera.</p>
+</section>
+</section>
+<section id="performing-a-scan">
+<h2>Performing a Scan<a class="headerlink" href="#performing-a-scan" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">scan()</span></code> routine performs the initial localisation of all visible markers in the workspace.<br />
+This step combines robot motion, ArUco detection, pose estimation, and frame transformations to express each marker in the robot base frame.</p>
+<p>Rather than showing the entire implementation, the key <code class="docutils literal notranslate"><span class="pre">mapit</span></code> interactions are highlighted below.</p>
+<hr class="docutils" />
+<section id="moving-to-predefined-scanning-poses">
+<h3>1. Moving to Predefined Scanning Poses<a class="headerlink" href="#moving-to-predefined-scanning-poses" title="Link to this heading"></a></h3>
+<p>The robot iterates through a set of predefined joint configurations to observe the workspace from multiple viewpoints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">robot</span><span class="o">.</span><span class="n">movej</span><span class="p">(</span><span class="n">JointPositions</span><span class="p">(</span><span class="n">joint_pose</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Well-chosen scanning poses improve visibility, reduce occlusions, and increase pose accuracy.</p>
+</section>
+<hr class="docutils" />
+<section id="detecting-aruco-markers">
+<h3>2. Detecting ArUco Markers<a class="headerlink" href="#detecting-aruco-markers" title="Link to this heading"></a></h3>
+<p>At each pose, the detector processes the current camera frame:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">detected_markers</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">detect_markers</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Detector</span></code> instance internally:</p>
+<ul class="simple">
+<li><p>Retrieves the latest frame from <code class="docutils literal notranslate"><span class="pre">CalibratedCamera</span></code></p></li>
+<li><p>Detects ArUco markers</p></li>
+<li><p>Returns image-space corner observations grouped by marker ID</p></li>
+</ul>
+<p>If no markers are detected, the scan continues to the next robot pose.</p>
+</section>
+<hr class="docutils" />
+<section id="estimating-marker-pose-in-the-camera-frame">
+<h3>3. Estimating Marker Pose in the Camera Frame<a class="headerlink" href="#estimating-marker-pose-in-the-camera-frame" title="Link to this heading"></a></h3>
+<p>For each detected marker, a 6D pose is estimated relative to the camera:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">H_marker_in_cam</span><span class="p">,</span> <span class="n">ok</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">estimate_marker_pose</span><span class="p">(</span><span class="n">img_points</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If successful, this returns a homogeneous transformation matrix. This is one of the core capabilities provided by <code class="docutils literal notranslate"><span class="pre">mapit</span></code>: converting raw image detections into metric 3D poses using camera calibration.</p>
+</section>
+<hr class="docutils" />
+<section id="transforming-to-the-robot-base-frame">
+<h3>4. Transforming to the Robot Base Frame<a class="headerlink" href="#transforming-to-the-robot-base-frame" title="Link to this heading"></a></h3>
+<p>The marker pose must be expressed in the robot base coordinate system.<br />
+This is done in two steps using <code class="docutils literal notranslate"><span class="pre">mapit.utils</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">marker_in_tcp</span> <span class="o">=</span> <span class="n">apply_transformation</span><span class="p">(</span><span class="n">H_marker_in_cam</span><span class="p">,</span> <span class="n">H_cam2tcp</span><span class="p">)</span>
+<span class="n">marker_in_base</span> <span class="o">=</span> <span class="n">apply_transformation</span><span class="p">(</span><span class="n">marker_in_tcp</span><span class="p">,</span> <span class="n">H_tcp2base</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">H_cam2tcp</span></code> — fixed hand–eye calibration</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">H_tcp2base</span></code> — current robot forward kinematics</p></li>
+</ul>
+<p>The helper function <code class="docutils literal notranslate"><span class="pre">apply_transformation</span></code> ensures consistent and readable frame transformations.</p>
+</section>
+<hr class="docutils" />
+<section id="storing-the-detected-objects">
+<h3>5. Storing the Detected Objects<a class="headerlink" href="#storing-the-detected-objects" title="Link to this heading"></a></h3>
+<p>Each detected marker is stored together with the robot pose at detection time:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">detected_ids</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;M&quot;</span><span class="p">:</span> <span class="n">Marker</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="n">H</span><span class="o">=</span><span class="n">marker_in_base</span><span class="p">),</span>
+    <span class="s2">&quot;robot&quot;</span><span class="p">:</span> <span class="n">tool_pose</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Marker</span></code> object encapsulates:</p>
+<ul class="simple">
+<li><p>Marker ID</p></li>
+<li><p>Full homogeneous transform in the base frame</p></li>
+<li><p>Convenient access to position and orientation</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="scan-result">
+<h3>Scan Result<a class="headerlink" href="#scan-result" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">scan()</span></code> function returns a dictionary:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">detected_ids</span> <span class="o">=</span> <span class="n">scan</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Each entry contains a marker expressed in the robot base frame.<br />
+This representation provides a consistent geometric foundation for:</p>
+<ul class="simple">
+<li><p>Pose refinement</p></li>
+<li><p>Spatial relationship computation</p></li>
+<li><p>Object re-localisation</p></li>
+<li><p>Manipulation planning</p></li>
+</ul>
+<p>At this stage, all visible objects have an initial 6D pose estimate in the shared base coordinate system.</p>
+</section>
+</section>
+<section id="computing-spatial-relationships">
+<h2>Computing Spatial Relationships<a class="headerlink" href="#computing-spatial-relationships" title="Link to this heading"></a></h2>
+<p>After the initial scan, we refine each detected marker pose using the <code class="docutils literal notranslate"><span class="pre">refine()</span></code> routine.</p>
+<section id="active-visual-refinement">
+<h3>Active Visual Refinement<a class="headerlink" href="#active-visual-refinement" title="Link to this heading"></a></h3>
+<p>For each marker:</p>
+<ol class="arabic simple">
+<li><p>Rotate the camera to align its optical axis with the marker center.</p></li>
+<li><p>Move closer to reduce reprojection noise.</p></li>
+<li><p>Re-estimate the marker pose multiple times (200 samples).</p></li>
+<li><p>Compute:</p>
+<ul class="simple">
+<li><p>Median translation (robust against outliers)</p></li>
+<li><p>Mean rotation vector (approximation)</p></li>
+</ul>
+</li>
+</ol>
+<p>This produces a significantly more stable estimate of:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">H_marker_in_base</span>
+</pre></div>
+</div>
+<p>The refined transform replaces the initial estimate in <code class="docutils literal notranslate"><span class="pre">detected_ids</span></code>.</p>
+</section>
+<hr class="docutils" />
+<section id="computing-platemantis-relationship">
+<h3>Computing Plate–Mantis Relationship<a class="headerlink" href="#computing-platemantis-relationship" title="Link to this heading"></a></h3>
+<p>Once both Mantis and plate are refined:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">H_plate_in_mantis</span> <span class="o">=</span> <span class="n">H_plate_in_base</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">H_mantis_in_base</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This encodes the spatial relationship:</p>
+<blockquote>
+<div><p>“Where is the plate relative to the Mantis?”</p>
+</div></blockquote>
+<p>This relationship is assumed rigid and constant.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="re-discovery-and-re-construction-of-spatial-layout">
+<h2>Re-discovery and Re-construction of Spatial Layout<a class="headerlink" href="#re-discovery-and-re-construction-of-spatial-layout" title="Link to this heading"></a></h2>
+<p>Now we simulate a dynamic workspace:</p>
+<p>The user moves the Mantis (and the plate moves with it).<br />
+The system no longer sees the plate during the next scan.</p>
+<section id="step-1-perform-a-new-scan">
+<h3>Step 1: Perform a New Scan<a class="headerlink" href="#step-1-perform-a-new-scan" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">detected_ids</span> <span class="o">=</span> <span class="n">scan</span><span class="p">()</span>
+<span class="n">refine</span><span class="p">(</span><span class="n">detected_ids</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Assume only the Mantis marker is detected.</p>
+</section>
+<section id="step-2-reconstruct-plate-pose">
+<h3>Step 2: Reconstruct Plate Pose<a class="headerlink" href="#step-2-reconstruct-plate-pose" title="Link to this heading"></a></h3>
+<p>We compute the new plate pose using the stored relationship:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">H_plate_in_base_new</span> <span class="o">=</span> <span class="n">H_mantis_in_base_new</span> <span class="o">@</span> <span class="n">H_plate_in_mantis</span>
+</pre></div>
+</div>
+<p>Even without seeing the plate, its location is reconstructed from:</p>
+<ul class="simple">
+<li><p>The newly detected Mantis pose</p></li>
+<li><p>The previously learned rigid transform</p></li>
+</ul>
+<p>This enables implicit plate localisation.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="plate-alignment-and-pick">
+<h2>Plate Alignment and Pick<a class="headerlink" href="#plate-alignment-and-pick" title="Link to this heading"></a></h2>
+<p>Once the reconstructed plate pose is available:</p>
+<ol class="arabic simple">
+<li><p>Move above the plate.</p></li>
+<li><p>Align TCP orientation with the long side of the SBS plate.</p></li>
+<li><p>Open gripper.</p></li>
+<li><p>Descend.</p></li>
+<li><p>Close gripper.</p></li>
+<li><p>Lift plate.</p></li>
+</ol>
+<p>The Z-axis alignment is computed by comparing:</p>
+<ul class="simple">
+<li><p>TCP X-axis in base frame</p></li>
+<li><p>Plate X-axis in base frame</p></li>
+</ul>
+<p>A corrective rotation around Z is applied to ensure parallel alignment before grasping.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../calibration/readme.html" class="btn btn-neutral float-left" title="1. Example: Instantiating a CalibratedCamera" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../../integration/index.html" class="btn btn-neutral float-right" title="Integration Notes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Jesper Thøgersen, DALSA.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

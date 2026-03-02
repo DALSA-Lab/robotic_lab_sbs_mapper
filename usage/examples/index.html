@@ -6,21 +6,21 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Examples &mdash; My Project  documentation</title>
+  <title>Examples &mdash; Robotic SBS Plate Mapper  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="1. Example: Using the Dummy Python Package" href="example_1.html" />
-    <link rel="prev" title="Dummy C++ Package" href="../../code/cpp_pkgs/cpp_pkg.html" /> 
+    <link rel="next" title="1. Example: Instantiating a CalibratedCamera" href="calibration/readme.html" />
+    <link rel="prev" title="Component (Template)" href="../../architecture/components/component-template.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +32,7 @@
           
           
           <a href="../../index.html" class="icon icon-home">
-            My Project
+            Robotic SBS Plate Mapper
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -45,12 +45,13 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../architecture/index.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../code/index.html">Documentation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="example_1.html">1. Example: Using the Dummy Python Package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example_2.html">2. Example: Using the Dummy C++ Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calibration/readme.html">1. Example: Instantiating a <code class="docutils literal notranslate"><span class="pre">CalibratedCamera</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plate_detection/readme.html">2. Dynamic Plate Detection and Localisation</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../integration/index.html">Integration Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code/index.html">Source Code Documentation</a></li>
 </ul>
 
         </div>
@@ -59,7 +60,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">My Project</a>
+          <a href="../../index.html">Robotic SBS Plate Mapper</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -79,17 +80,51 @@
              
   <section id="examples">
 <h1>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h1>
+<p>This section covers a handful for example applications of the toolbox. Some example include demostration videos.</p>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="example_1.html">1. Example: Using the Dummy Python Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="example_1.html#demomstration">Demomstration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example_1.html#output-explanation">Output Explanation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calibration/readme.html">1. Example: Instantiating a <code class="docutils literal notranslate"><span class="pre">CalibratedCamera</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="calibration/readme.html#perform-a-calibration">Perform a calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calibration/readme.html#load-a-calibration-from-file">Load a calibration from file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calibration/readme.html#manual-instantiation">Manual instantiation</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="example_2.html">2. Example: Using the Dummy C++ Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="example_2.html#demomstration">Demomstration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example_2.html#output-explanation">Output Explanation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plate_detection/readme.html">2. Dynamic Plate Detection and Localisation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plate_detection/readme.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plate_detection/readme.html#physical-setup">Physical Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plate_detection/readme.html#robot-and-camera">1. Robot and Camera</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_detection/readme.html#marked-objects">2. Marked Objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_detection/readme.html#scanning-poses">3. Scanning Poses</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plate_detection/readme.html#initialisation">Initialisation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plate_detection/readme.html#realsense-camera">1. RealSense Camera</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_detection/readme.html#loading-a-calibratedcamera-config">2. Loading a <code class="docutils literal notranslate"><span class="pre">CalibratedCamera</span></code> config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_detection/readme.html#robot-interface">3. Robot Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_detection/readme.html#aruco-detector">4. ArUco Detector</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plate_detection/readme.html#performing-a-scan">Performing a Scan</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plate_detection/readme.html#moving-to-predefined-scanning-poses">1. Moving to Predefined Scanning Poses</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_detection/readme.html#detecting-aruco-markers">2. Detecting ArUco Markers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_detection/readme.html#estimating-marker-pose-in-the-camera-frame">3. Estimating Marker Pose in the Camera Frame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_detection/readme.html#transforming-to-the-robot-base-frame">4. Transforming to the Robot Base Frame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_detection/readme.html#storing-the-detected-objects">5. Storing the Detected Objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_detection/readme.html#scan-result">Scan Result</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plate_detection/readme.html#computing-spatial-relationships">Computing Spatial Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plate_detection/readme.html#active-visual-refinement">Active Visual Refinement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_detection/readme.html#computing-platemantis-relationship">Computing Plate–Mantis Relationship</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plate_detection/readme.html#re-discovery-and-re-construction-of-spatial-layout">Re-discovery and Re-construction of Spatial Layout</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plate_detection/readme.html#step-1-perform-a-new-scan">Step 1: Perform a New Scan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plate_detection/readme.html#step-2-reconstruct-plate-pose">Step 2: Reconstruct Plate Pose</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plate_detection/readme.html#plate-alignment-and-pick">Plate Alignment and Pick</a></li>
 </ul>
 </li>
 </ul>
@@ -100,14 +135,14 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../../code/cpp_pkgs/cpp_pkg.html" class="btn btn-neutral float-left" title="Dummy C++ Package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="example_1.html" class="btn btn-neutral float-right" title="1. Example: Using the Dummy Python Package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../../architecture/components/component-template.html" class="btn btn-neutral float-left" title="Component (Template)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="calibration/readme.html" class="btn btn-neutral float-right" title="1. Example: Instantiating a CalibratedCamera" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Alan Mansour, DALSA.</p>
+    <p>&#169; Copyright 2026, Jesper Thøgersen, DALSA.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

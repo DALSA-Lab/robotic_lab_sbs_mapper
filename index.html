@@ -6,16 +6,16 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to My Project &mdash; My Project  documentation</title>
+  <title>Robitic SBS Plate Mapper &mdash; Robotic SBS Plate Mapper  documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -31,7 +31,7 @@
           
           
           <a href="#" class="icon icon-home">
-            My Project
+            Robotic SBS Plate Mapper
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -44,8 +44,9 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="architecture/index.html">Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="code/index.html">Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage/examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration/index.html">Integration Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code/index.html">Source Code Documentation</a></li>
 </ul>
 
         </div>
@@ -54,7 +55,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">My Project</a>
+          <a href="#">Robotic SBS Plate Mapper</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -62,7 +63,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Welcome to  <strong>My Project</strong></li>
+      <li class="breadcrumb-item active">Robitic SBS Plate Mapper</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -72,24 +73,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="welcome-to-my-project">
-<h1>Welcome to  <strong>My Project</strong><a class="headerlink" href="#welcome-to-my-project" title="Link to this heading"></a></h1>
+  <section id="robitic-sbs-plate-mapper">
+<h1>Robitic SBS Plate Mapper<a class="headerlink" href="#robitic-sbs-plate-mapper" title="Link to this heading"></a></h1>
+<p>Welcome to the documentation for the Robotic SBS Plate Mapper; a toolbox for enabling localisation of SBS/SLAS microplates in a modular environment.
+Developed at <strong>DTU’s Arena for Life Science Automation (DALSA)</strong> <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>, the project aim to bridge the gap between hardware, software and lab integration.</p>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Link to this heading"></a></h2>
+<p>Originally developed as a direct extension of the modular DALSA table, the toolbox aim to help define the spatial layout of a dynamic workspace.
+For a modular laboratry it is insufficient to rely on hardcoded microplate locations.
+The localisation is based on ArUco markers due to their wide adoption and low computational complexity, yet still providing great accuracy.</p>
+<p>A video demonstration is available on <cite>YouTube &lt;https://youtu.be/6rvSUFQEVYE&gt;</cite>, showing the accuracy and robustness of the toolbox.</p>
+</section>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Camera calibration module</p></li>
+<li><p>ArUco marker detection</p></li>
+</ul>
+</section>
 <section id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><em>A project overview should briefly describe the scope, purpose, and goals of the project. It helps users quickly understand what the project is about and why it exists.
-When writing an overview, mention the main problem the project solves, its target audience, and any unique features or technologies it uses.</em></p>
-<p><strong>*Example:*</strong></p>
-<blockquote>
-<div><p><em>This project provides a stadaridized template for DALSA GitHub repositories, designed to help project owners quickly set up new projects with a consistent structure and DevOps features.
-Its goal is to ensure maintainability and collaboration by enforcing standards that make future contributions and usage seamless. The template integrates Sphinx + Doxygen for unified
-documentation of both Python and C++ packages, and uses GitHub Actions to automate generation of web-based documentation, code analyis (linting), code rewrites to follow a
-consistent style (formatting), and execution of tests.</em></p>
-</div></blockquote>
-</div>
-<p>Here you will find a full description of the project’s architecture and core concepts, detailed documentation of all packages, and practical usage examples.
-This guide is designed to help you understand the structure and functionality of the project, making it easier to get started and make effective use of its features.</p>
+<p>The software is written in <strong>Python</strong>, built on the <strong>Open Source Computer Vision Library (OpenCV)</strong> <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, to provide a toolbox with the required modules to perform camera calibration, hand-eye calibration and ArUco marker detection. A collection of C++ tools are provided as supplementary tools.
+Here, you’ll find an overview of the submodules and their source-code documentation, supplementary tools, working examples with demo vidoes and notes on integration.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -98,18 +103,29 @@ This guide is designed to help you understand the structure and functionality of
 <li class="toctree-l2"><a class="reference internal" href="architecture/components/index.html">Components</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="code/index.html">Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="code/py_pkgs/index.html">Python Packages Documentation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="code/cpp_pkgs/index.html">C++ Packages Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage/examples/calibration/readme.html">1. Example: Instantiating a <code class="docutils literal notranslate"><span class="pre">CalibratedCamera</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage/examples/plate_detection/readme.html">2. Dynamic Plate Detection and Localisation</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="usage/examples/index.html">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="usage/examples/example_1.html">1. Example: Using the Dummy Python Package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="usage/examples/example_2.html">2. Example: Using the Dummy C++ Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration/index.html">Integration Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code/index.html">Source Code Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code/py_pkgs/index.html">Python Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/cpp_tools/index.html">C++ Tools</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Official DALSA website: <a class="reference external" href="https://dalsa.dtu.dk">https://dalsa.dtu.dk</a></p>
+</aside>
+<aside class="footnote brackets" id="id4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>OpenCV Org website: <a class="reference external" href="https://opencv.org">https://opencv.org</a></p>
+</aside>
+</aside>
 </section>
 </section>
 
@@ -123,7 +139,7 @@ This guide is designed to help you understand the structure and functionality of
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Alan Mansour, DALSA.</p>
+    <p>&#169; Copyright 2026, Jesper Thøgersen, DALSA.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

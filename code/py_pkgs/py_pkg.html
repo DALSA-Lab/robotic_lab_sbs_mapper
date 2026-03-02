@@ -6,21 +6,21 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dummy Python Package &mdash; My Project  documentation</title>
+  <title>Camera Calibration &mdash; Robotic SBS Plate Mapper  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="C++ Packages Documentation" href="../cpp_pkgs/index.html" />
-    <link rel="prev" title="Python Packages Documentation" href="index.html" /> 
+    <link rel="next" title="C++ Tools" href="../cpp_tools/index.html" />
+    <link rel="prev" title="Python Package" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +32,7 @@
           
           
           <a href="../../index.html" class="icon icon-home">
-            My Project
+            Robotic SBS Plate Mapper
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -45,19 +45,38 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../architecture/index.html">Architecture</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Documentation</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="index.html">Python Packages Documentation</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Dummy Python Package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#module-py_pkg.math_utils">Math Utilities</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-py_pkg.string_utils">String Utilities</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../cpp_pkgs/index.html">C++ Packages Documentation</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="../../usage/examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../integration/index.html">Integration Notes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Source Code Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Python Package</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Camera Calibration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mapit.calib.CalibratedCamera"><code class="docutils literal notranslate"><span class="pre">CalibratedCamera</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-mapit.detector">ArUco Detector</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mapit.detector.Detector"><code class="docutils literal notranslate"><span class="pre">Detector</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-mapit.utils">Utilities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mapit.utils.apply_rotation_and_translation"><code class="docutils literal notranslate"><span class="pre">apply_rotation_and_translation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mapit.utils.apply_transformation"><code class="docutils literal notranslate"><span class="pre">apply_transformation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mapit.utils.axis_angle_align"><code class="docutils literal notranslate"><span class="pre">axis_angle_align()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mapit.utils.build_pose"><code class="docutils literal notranslate"><span class="pre">build_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mapit.utils.extract_pose_and_orientation"><code class="docutils literal notranslate"><span class="pre">extract_pose_and_orientation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mapit.utils.look_at"><code class="docutils literal notranslate"><span class="pre">look_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mapit.utils.make_homogeneous"><code class="docutils literal notranslate"><span class="pre">make_homogeneous()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mapit.utils.rot_tran_from_tool_pose"><code class="docutils literal notranslate"><span class="pre">rot_tran_from_tool_pose()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-mapit.models">Models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mapit.models.Marker"><code class="docutils literal notranslate"><span class="pre">Marker</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp_tools/index.html">C++ Tools</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -66,7 +85,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">My Project</a>
+          <a href="../../index.html">Robotic SBS Plate Mapper</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -74,9 +93,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Documentation</a></li>
-          <li class="breadcrumb-item"><a href="index.html">Python Packages Documentation</a></li>
-      <li class="breadcrumb-item active">Dummy Python Package</li>
+          <li class="breadcrumb-item"><a href="../index.html">Source Code Documentation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Python Package</a></li>
+      <li class="breadcrumb-item active">Camera Calibration</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/code/py_pkgs/py_pkg.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -86,181 +105,534 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="dummy-python-package">
-<h1>Dummy Python Package<a class="headerlink" href="#dummy-python-package" title="Link to this heading"></a></h1>
-<section id="module-py_pkg.math_utils">
-<span id="math-utilities"></span><h2>Math Utilities<a class="headerlink" href="#module-py_pkg.math_utils" title="Link to this heading"></a></h2>
-<p>math_utils.py - A dummy module for demonstration.</p>
+  <section id="module-mapit.calib">
+<span id="camera-calibration"></span><h1>Camera Calibration<a class="headerlink" href="#module-mapit.calib" title="Link to this heading"></a></h1>
+<p>cailb.py - Camera calibration module.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="py_pkg.math_utils.Calculator">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_pkg.math_utils.</span></span><span class="sig-name descname"><span class="pre">Calculator</span></span><a class="headerlink" href="#py_pkg.math_utils.Calculator" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="mapit.calib.CalibratedCamera">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">mapit.calib.</span></span><span class="sig-name descname"><span class="pre">CalibratedCamera</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R_cam2tcp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_cam2tcp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_coefficients</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_grabber</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mapit.calib.CalibratedCamera" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A simple calculator class for basic arithmetic operations.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="py_pkg.math_utils.Calculator.add">
-<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_pkg.math_utils.Calculator.add" title="Link to this definition"></a></dt>
-<dd><p>Add two numbers.</p>
+<p>Collects camera-related parameters in a single object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> (<em>float</em><em> or </em><em>int</em>) – First number.</p></li>
-<li><p><strong>b</strong> (<em>float</em><em> or </em><em>int</em>) – Second number.</p></li>
+<li><p><strong>R_cam2tcp</strong> (<em>numpy.ndarray</em>) – Rotation matrix from camera to TCP.</p></li>
+<li><p><strong>T_cam2tcp</strong> (<em>numpy.ndarray</em>) – Translation vector from camera to TCP.</p></li>
+<li><p><strong>distortion_coefficients</strong> (<em>numpy.ndarray</em>) – Camera distortion coefficients.</p></li>
+<li><p><strong>intrinsics</strong> (<em>numpy.ndarray</em>) – Camera intrinsic matrix.</p></li>
+<li><p><strong>frame_grabber</strong> (<em>callable</em>) – Device-specific callable that grabs a single frame.</p></li>
+<li><p><strong>image_width</strong> (<em>int</em>) – Image width in pixels.</p></li>
+<li><p><strong>image_height</strong> (<em>int</em>) – Image height in pixels.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The sum of a and b.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float or int</p>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="mapit.calib.CalibratedCamera.export_to_config">
+<span class="sig-name descname"><span class="pre">export_to_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mapit.calib.CalibratedCamera.export_to_config" title="Link to this definition"></a></dt>
+<dd><p>Export CalibratedCamera parameters to a YAML file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the YAML config file destination.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="py_pkg.math_utils.Calculator.divide">
-<span class="sig-name descname"><span class="pre">divide</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_pkg.math_utils.Calculator.divide" title="Link to this definition"></a></dt>
-<dd><p>Divide one number by another.</p>
+<dt class="sig sig-object py" id="mapit.calib.CalibratedCamera.grab_frame">
+<span class="sig-name descname"><span class="pre">grab_frame</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mapit.calib.CalibratedCamera.grab_frame" title="Link to this definition"></a></dt>
+<dd><p>Invoke the <cite>.frame_grabber()</cite> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>AssertionError</strong> – If <cite>frame_grabber</cite> is not callable, i.e. not set or configured incorrectly.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mapit.calib.CalibratedCamera.new_calibration">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">new_calibration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">images</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_gripper2base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_gripper2base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">board</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_grapper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mapit.calib.CalibratedCamera.new_calibration" title="Link to this definition"></a></dt>
+<dd><p>Perform lens and hand-eye calibration to instantiate a CalibratedCamera instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> (<em>float</em><em> or </em><em>int</em>) – Numerator.</p></li>
-<li><p><strong>b</strong> (<em>float</em><em> or </em><em>int</em>) – Denominator.</p></li>
+<li><p><strong>images</strong> (<em>list</em><em> of </em><em>numpy.array</em>) – List of input images of calibration board.</p></li>
+<li><p><strong>R_gripper2base</strong> (<em>list</em><em> of </em><em>numpy.array</em>) – List of rotation vectors of the robot pose at each image, following the image sequence order.</p></li>
+<li><p><strong>t_gripper2base</strong> (<em>list</em><em> of </em><em>numpy.array</em>) – List of translation vectors of the robot pose at each image, following the image sequence order.</p></li>
+<li><p><strong>board</strong> (<em>tuple</em>) – A tuple containing the number of inner chessboard-corners  (width, height) and square size (mm), e.g (5, 8, 0.03).</p></li>
+<li><p><strong>frame_grapper</strong> (<em>callable</em>) – A callable method to get an image frame.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The result of a / b.</p>
+<dd class="field-even"><p>A <cite>CalibratedCamera</cite> object.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
+<dd class="field-odd"><p><a class="reference internal" href="#mapit.calib.CalibratedCamera" title="mapit.calib.CalibratedCamera">CalibratedCamera</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If b is zero.</p>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>AssertionError</strong> – If the length of the input lists does not match.</p></li>
+<li><p><strong>RuntimeError</strong> – If the camera calibration failed.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="py_pkg.math_utils.Calculator.multiply">
-<span class="sig-name descname"><span class="pre">multiply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_pkg.math_utils.Calculator.multiply" title="Link to this definition"></a></dt>
-<dd><p>Multiply two numbers.</p>
+<dt class="sig sig-object py" id="mapit.calib.CalibratedCamera.new_from_config">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">new_from_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_grapper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mapit.calib.CalibratedCamera.new_from_config" title="Link to this definition"></a></dt>
+<dd><p>Create a <cite>CalibratedCamera</cite> from a YAML configuration file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> (<em>float</em><em> or </em><em>int</em>) – First number.</p></li>
-<li><p><strong>b</strong> (<em>float</em><em> or </em><em>int</em>) – Second number.</p></li>
+<li><p><strong>path</strong> (<em>str</em>) – The path to the YAML config file.</p></li>
+<li><p><strong>frame_grapper</strong> (<em>callable</em>) – A callable method to get an image frame.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The product of a and b.</p>
+<dd class="field-even"><p>A <cite>CalibratedCamera</cite> object.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float or int</p>
+<dd class="field-odd"><p><a class="reference internal" href="#mapit.calib.CalibratedCamera" title="mapit.calib.CalibratedCamera">CalibratedCamera</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="py_pkg.math_utils.Calculator.subtract">
-<span class="sig-name descname"><span class="pre">subtract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_pkg.math_utils.Calculator.subtract" title="Link to this definition"></a></dt>
-<dd><p>Subtract one number from another.</p>
+<dt class="sig sig-object py" id="mapit.calib.CalibratedCamera.set_frame_grabber">
+<span class="sig-name descname"><span class="pre">set_frame_grabber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_grabber</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mapit.calib.CalibratedCamera.set_frame_grabber" title="Link to this definition"></a></dt>
+<dd><p>Set the frame_grabber of a <cite>CalibratedCamera</cite> instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> (<em>float</em><em> or </em><em>int</em>) – First number.</p></li>
-<li><p><strong>b</strong> (<em>float</em><em> or </em><em>int</em>) – Second number to subtract from the first.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The result of a - b.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float or int</p>
+<dd class="field-odd"><p><strong>frame_grabber</strong> (<em>callable</em>) – A callable method to get an image frame.</p>
 </dd>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="py_pkg.math_utils.square">
-<span class="sig-prename descclassname"><span class="pre">py_pkg.math_utils.</span></span><span class="sig-name descname"><span class="pre">square</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_pkg.math_utils.square" title="Link to this definition"></a></dt>
-<dd><p>Calculate the square of a number.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mapit.calib.CalibratedCamera.size">
+<span class="sig-name descname"><span class="pre">size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mapit.calib.CalibratedCamera.size" title="Link to this definition"></a></dt>
+<dd><p>Get image size in pixels.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>x</strong> (<em>float</em><em> or </em><em>int</em>) – The number to be squared.</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Image size in pixels as (width, height).</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The square of the input number.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float or int</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple</p>
 </dd>
 </dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
-<section id="module-py_pkg.string_utils">
-<span id="string-utilities"></span><h2>String Utilities<a class="headerlink" href="#module-py_pkg.string_utils" title="Link to this heading"></a></h2>
-<p>string_utils.py - A dummy module for demonstration.</p>
+<section id="module-mapit.detector">
+<span id="aruco-detector"></span><h1>ArUco Detector<a class="headerlink" href="#module-mapit.detector" title="Link to this heading"></a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="py_pkg.string_utils.Formatter">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">py_pkg.string_utils.</span></span><span class="sig-name descname"><span class="pre">Formatter</span></span><a class="headerlink" href="#py_pkg.string_utils.Formatter" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="mapit.detector.Detector">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">mapit.detector.</span></span><span class="sig-name descname"><span class="pre">Detector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aruco_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aruco_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cv2.aruco.DetectorParameters</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">camera</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mapit.calib.CalibratedCamera" title="mapit.calib.CalibratedCamera"><span class="pre">CalibratedCamera</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mapit.detector.Detector" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A class for formatting strings.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="py_pkg.string_utils.Formatter.surround">
-<span class="sig-name descname"><span class="pre">surround</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'*'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_pkg.string_utils.Formatter.surround" title="Link to this definition"></a></dt>
-<dd><p>Surround text with a given symbol.</p>
+<p>ArUco marker detector wrapper with camera-aware pose estimation support.</p>
+<p>This class employ OpenCV’s <cite>cv.aruco.ArucoDetector</cite> and binds it
+together with camera calibration data to provide a convenient interface for ArUco marker detection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>text</strong> (<em>str</em>) – The input string to surround.</p></li>
-<li><p><strong>symbol</strong> (<em>str</em><em>, </em><em>optional</em>) – The symbol to use for surrounding (default is ‘*’).</p></li>
+<li><p><strong>ar_dict</strong> (<em>int</em>) – OpenCV ArUco dictionary identifier (e.g. <cite>cv.aruco.DICT_4X4_50</cite>).
+If <cite>None</cite> or <cite>0</cite>, <cite>DICT_4X4_50</cite> is used as default.</p></li>
+<li><p><strong>aruco_params</strong> (<em>cv.aruco.DetectorParameters</em>) – Detector parameters controlling thresholding, refinement, and
+detection behavior. If <cite>None</cite>, default parameters are created
+with sub-pixel corner refinement enabled.</p></li>
+<li><p><strong>camera</strong> (<a class="reference internal" href="#mapit.calib.CalibratedCamera" title="mapit.calib.CalibratedCamera"><em>CalibratedCamera</em></a>) – A <cite>CalibratedCamera</cite> instance.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mapit.detector.Detector.dictionary">
+<span class="sig-name descname"><span class="pre">dictionary</span></span><a class="headerlink" href="#mapit.detector.Detector.dictionary" title="Link to this definition"></a></dt>
+<dd><p>The ArUco dictionary used for marker detection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>cv.aruco.Dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mapit.detector.Detector.aruco_params">
+<span class="sig-name descname"><span class="pre">aruco_params</span></span><a class="headerlink" href="#mapit.detector.Detector.aruco_params" title="Link to this definition"></a></dt>
+<dd><p>Detector configuration parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>cv.aruco.DetectorParameters</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mapit.detector.Detector.detector">
+<span class="sig-name descname"><span class="pre">detector</span></span><a class="headerlink" href="#mapit.detector.Detector.detector" title="Link to this definition"></a></dt>
+<dd><p>OpenCV ArUco detector instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>cv.aruco.ArucoDetector</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mapit.detector.Detector.camera">
+<span class="sig-name descname"><span class="pre">camera</span></span><a class="headerlink" href="#mapit.detector.Detector.camera" title="Link to this definition"></a></dt>
+<dd><p>CalibratedCamera object used for pose estimation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#mapit.calib.CalibratedCamera" title="mapit.calib.CalibratedCamera">CalibratedCamera</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mapit.detector.Detector.roi">
+<span class="sig-name descname"><span class="pre">roi</span></span><a class="headerlink" href="#mapit.detector.Detector.roi" title="Link to this definition"></a></dt>
+<dd><p>Region of interest returned by <code class="docutils literal notranslate"><span class="pre">cv.getOptimalNewCameraMatrix</span></code>
+for cropping image frames.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[int, int, int, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mapit.detector.Detector.align_camera_to_point">
+<span class="sig-name descname"><span class="pre">align_camera_to_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">origin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_tcp2base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_tcp2base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mapit.detector.Detector.align_camera_to_point" title="Link to this definition"></a></dt>
+<dd><p>Generate a new robot orientation to align the camera optical center with a 3D point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>origin</strong> (<em>numpy.array</em>) – A 3D point of dimensions 3x1, describing the camera position in the world frame.</p></li>
+<li><p><strong>target</strong> (<em>numpy.array</em>) – A 3D point of dimensions 3x1, describing the target in the world frame.</p></li>
+<li><p><strong>R_tcp2base</strong> (<em>numpy.array</em>) – A 3x3 rotation matrix to transfrom from robot tool to robot base coordinate.</p></li>
+<li><p><strong>T_tcp2base</strong> (<em>numpy.array</em>) – A 3x1 translation vector to transform from robot tool to robot base coordinate.</p></li>
+<li><p><strong>method</strong> (<em>int</em>) – Flag to select which method to use for aligning camera. Defaults to ALIGN_AXIS_ANGLE.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The formatted string with symbols surrounding the text.</p>
+<dd class="field-even"><p>A rotation vector, which when applied to the robot tool aligns the camera to the desired point.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p>numpy.narray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mapit.detector.Detector.detect_markers">
+<span class="sig-name descname"><span class="pre">detect_markers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#mapit.detector.Detector.detect_markers" title="Link to this definition"></a></dt>
+<dd><p>Capture an image frame and detect ArUco markers.</p>
+<p>This method takes a single image from the associated camera and
+detects ArUco markers using OpenCV’s <code class="docutils literal notranslate"><span class="pre">ArucoDetector</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p>Dictionary mapping marker IDs to their detected corner coordinates.
+Each value is a <cite>(4, 2)</cite> array of image pixel coordinates in the
+order returned by OpenCV (clockwise starting from top-left).</p>
+<p>If no markers are detected, an empty dictionary is returned.</p>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[int, np.ndarray]</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Corner coordinates are given in <strong>image pixel coordinates</strong>, not in the camera coordinate frame.</p></li>
+<li><p>No pose estimation or distortion correction is performed here. See <cite>estimate_marker_pose()</cite>.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mapit.detector.Detector.estimate_marker_pose">
+<span class="sig-name descname"><span class="pre">estimate_marker_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_points</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#mapit.detector.Detector.estimate_marker_pose" title="Link to this definition"></a></dt>
+<dd><p>Estimate marker pose in world coordinate frame, with respect to the camera frame.</p>
+<p>This method a single (4,2) array of ArUco marker corners, and estimates the
+position and orientation using Perspective-n-Point (PnP).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>img_points</strong> (<em>numpy.ndarray</em>) – A single (4, 2) array-like structure representing the pixel
+coordinates of the 4 marker corners in the image frame. This can be obtained from <cite>detect_markers()</cite></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A np.array containing the translation vector and rotation (wrt. camera origin),
+represented as a homogeneous transformation matrix.
+A bool reflecting the state of the <cite>solvePnP</cite> (false if <cite>solvePnP</cite> failed)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
 </dd></dl>
 
 </dd></dl>
 
+</section>
+<section id="module-mapit.utils">
+<span id="utilities"></span><h1>Utilities<a class="headerlink" href="#module-mapit.utils" title="Link to this heading"></a></h1>
+<p>utilities.py - A collection of helper functions.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="py_pkg.string_utils.shout">
-<span class="sig-prename descclassname"><span class="pre">py_pkg.string_utils.</span></span><span class="sig-name descname"><span class="pre">shout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#py_pkg.string_utils.shout" title="Link to this definition"></a></dt>
-<dd><p>Convert text to uppercase.</p>
+<dt class="sig sig-object py" id="mapit.utils.apply_rotation_and_translation">
+<span class="sig-prename descclassname"><span class="pre">mapit.utils.</span></span><span class="sig-name descname"><span class="pre">apply_rotation_and_translation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#mapit.utils.apply_rotation_and_translation" title="Link to this definition"></a></dt>
+<dd><p>Apply a rotation and translation to a 3D point.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – The input string to convert.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>point</strong> (<em>numpy.array</em>) – A 3D point of dimensions 3x1.</p></li>
+<li><p><strong>R_matrix</strong> (<em>numpy.array</em>) – A 3x3 rotation matrix.</p></li>
+<li><p><strong>t_vector</strong> (<em>numpy.array</em>) – A translation vector of dimensions 3x1</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The uppercase version of the input string.</p>
+<dd class="field-even"><p>The transformed 3D point.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p>numpy.narray</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>AssertionError</strong> – If the shape of any input parameter is incorrect.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mapit.utils.apply_transformation">
+<span class="sig-prename descclassname"><span class="pre">mapit.utils.</span></span><span class="sig-name descname"><span class="pre">apply_transformation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transformation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#mapit.utils.apply_transformation" title="Link to this definition"></a></dt>
+<dd><p>Apply a 4x4 homogeneous transformation to either another 4x4 homogeneous transformation matrix or 3x1 point.</p>
+<p>The shape of the output is identical to the input target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target</strong> (<em>numpy.array</em>) – A 4x4 homogeneous transformation matrix.</p></li>
+<li><p><strong>transformation</strong> (<em>numpy.array</em>) – A 4x4 homogeneous transformation matrix.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The transformed target.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.narray</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>AssertionError</strong> – If the shape of any input parameter is incorrect.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mapit.utils.axis_angle_align">
+<span class="sig-prename descclassname"><span class="pre">mapit.utils.</span></span><span class="sig-name descname"><span class="pre">axis_angle_align</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">camera_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_cam2base</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mapit.utils.axis_angle_align" title="Link to this definition"></a></dt>
+<dd><p>Compute a tool orientation that aligns a camera optical center to a point in 3D, using the axis-angle method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>camera_position</strong> (<em>np.ndarray</em>) – A 3x1 vector representing the camera position in the world frame.</p></li>
+<li><p><strong>target</strong> (<em>np.ndarray</em>) – A 3x1 vector representing the target position in the world frame.</p></li>
+<li><p><strong>R_cam2base</strong> (<em>np.ndarray</em>) – A 3x3 rotation matrix used to compute orientation from camera frame to world frame.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>np.ndarray</em> – A 3x3 rotation matrix.</p></li>
+<li><p><em>——-</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mapit.utils.build_pose">
+<span class="sig-prename descclassname"><span class="pre">mapit.utils.</span></span><span class="sig-name descname"><span class="pre">build_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tvec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rvec</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mapit.utils.build_pose" title="Link to this definition"></a></dt>
+<dd><p>Combine a translation vector and rotation vector into a 1x6 array, used by the ur_commander.TaskPose.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tvec</strong> (<em>array</em>) – A 1x3 array representing a 3D position.</p></li>
+<li><p><strong>rvec</strong> (<em>array</em>) – A 1x3 array representing the rotation vector.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A 1x6 array containing the tvec and rvec.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mapit.utils.extract_pose_and_orientation">
+<span class="sig-prename descclassname"><span class="pre">mapit.utils.</span></span><span class="sig-name descname"><span class="pre">extract_pose_and_orientation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mapit.utils.extract_pose_and_orientation" title="Link to this definition"></a></dt>
+<dd><p>Extract the translation and rotation vector from a 4x4 homogeneous transformation matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>H_matrix</strong> (<em>numpy.ndarray</em>) – A 4x4 homogeneous transformation matrix.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the 3x1 rotation vector and 3x1 translation vector.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>AssertionError</strong> – If the shape of the input matrix is not 4x4.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mapit.utils.look_at">
+<span class="sig-prename descclassname"><span class="pre">mapit.utils.</span></span><span class="sig-name descname"><span class="pre">look_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">camera_position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mapit.utils.look_at" title="Link to this definition"></a></dt>
+<dd><p>Compute a tool orientation that aligns a camera optical center to a point in 3D, using the LookAt method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>camera_position</strong> (<em>np.ndarray</em>) – A 3x1 vector representing the camera position in the world frame.</p></li>
+<li><p><strong>target_position</strong> (<em>np.ndarray</em>) – A 3x1 vector representing the target position in the world frame.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>np.ndarray</em> – A 3x3 rotation matrix.</p></li>
+<li><p><em>——-</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mapit.utils.make_homogeneous">
+<span class="sig-prename descclassname"><span class="pre">mapit.utils.</span></span><span class="sig-name descname"><span class="pre">make_homogeneous</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#mapit.utils.make_homogeneous" title="Link to this definition"></a></dt>
+<dd><p>Create a 4x4 homogeneous transformation matrix from a rotation and translation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>R_matrix</strong> (<em>numpy.array</em>) – A 3x3 rotation matrix or 3x1 rotation vector.</p></li>
+<li><p><strong>t_vector</strong> (<em>numpy.array</em>) – A 3x1 translation vector.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A 4x4 homogeneous transformation matrix.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.narray</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>AssertionError</strong> – If the shape of any input parameter is incorrect.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mapit.utils.rot_tran_from_tool_pose">
+<span class="sig-prename descclassname"><span class="pre">mapit.utils.</span></span><span class="sig-name descname"><span class="pre">rot_tran_from_tool_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool_pose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ur_commander.TaskPose</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mapit.utils.rot_tran_from_tool_pose" title="Link to this definition"></a></dt>
+<dd><p>Extract the rotation matrix and translation vector from a ur_commander.TaskPose.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tool_pose</strong> (<em>ur_commander.TaskPose</em>) – A 1x6 array containg a translation and rotation vector.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the rotation vector as a 3x3 rotation matrix and the 3x1 translation vector.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>AssertionError</strong> – If the size of the input tool_pose is not 6.</p>
 </dd>
 </dl>
 </dd></dl>
 
 </section>
+<section id="module-mapit.models">
+<span id="models"></span><h1>Models<a class="headerlink" href="#module-mapit.models" title="Link to this heading"></a></h1>
+<p>Data model definitions used throughout the toolbox.</p>
+<p>This module currently defines the <code class="docutils literal notranslate"><span class="pre">Marker</span></code> class, which represents
+a 3D marker described by a homogeneous transformation matrix.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mapit.models.Marker">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">mapit.models.</span></span><span class="sig-name descname"><span class="pre">Marker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mapit.models.Marker" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents a 3D marker with pose information.</p>
+<p>A marker is defined by a unique identifier and a 4x4 homogeneous
+transformation matrix encoding its position and orientation in space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>int</em>) – Unique identifier of the marker.</p></li>
+<li><p><strong>H</strong> (<em>numpy.ndarray</em>) – A (4, 4) homogeneous transformation matrix representing the
+marker pose.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mapit.models.Marker.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#mapit.models.Marker.id" title="Link to this definition"></a></dt>
+<dd><p>Unique identifier of the marker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mapit.models.Marker.H">
+<span class="sig-name descname"><span class="pre">H</span></span><a class="headerlink" href="#mapit.models.Marker.H" title="Link to this definition"></a></dt>
+<dd><p>Homogeneous transformation matrix of shape (4, 4).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Notes</p>
+<p>The transformation matrix <code class="docutils literal notranslate"><span class="pre">H</span></code> is assumed to follow the standard
+homogeneous transformation convention:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">H[:3,</span> <span class="pre">:3]</span></code> contains the 3x3 rotation matrix.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">H[:3,</span> <span class="pre">3]</span></code> contains the 3D translation vector.</p></li>
+</ul>
+<dl class="py property">
+<dt class="sig sig-object py" id="mapit.models.Marker.orientation">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">orientation</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span></span><a class="headerlink" href="#mapit.models.Marker.orientation" title="Link to this definition"></a></dt>
+<dd><p>Return the 3x3 rotation matrix.</p>
+<p>Extracted from the transformation matrix (shape: (3, 3)).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mapit.models.Marker.position">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">position</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span></span><a class="headerlink" href="#mapit.models.Marker.position" title="Link to this definition"></a></dt>
+<dd><p>Return the 3D position vector.</p>
+<p>Extracted from the transformation matrix (shape: (3,)).</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Python Packages Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../cpp_pkgs/index.html" class="btn btn-neutral float-right" title="C++ Packages Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Python Package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../cpp_tools/index.html" class="btn btn-neutral float-right" title="C++ Tools" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Alan Mansour, DALSA.</p>
+    <p>&#169; Copyright 2026, Jesper Thøgersen, DALSA.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
